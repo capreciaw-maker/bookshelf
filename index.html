@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bookshelf — Personal Library Organizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-linen: #f7f3eb;
+      --card-surface: #ffffff;
+      --forest: #243e2f;
+      --forest-light: #355844;
+      --gold: #b88a3b;
+      --ink: #1f2421;
+      --muted: #646e68;
+      --border: #e5dec9;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-linen);
+      color: var(--ink);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-serif-display {
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .modal-backdrop {
+      background-color: rgba(20, 30, 24, 0.62);
+      backdrop-filter: blur(3px);
+    }
+    .btn-alert-red {
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      background-color: #dc2626 !important;
+      color: #ffffff !important;
+      border: 2px solid #991b1b !important;
+      opacity: 1 !important;
+      font-weight: 800 !important;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.45) !important;
+    }
+    .btn-alert-red:hover,
+    .btn-alert-red:active,
+    .btn-alert-red:focus {
+      background-color: #b91c1c !important;
+      color: #ffffff !important;
+      opacity: 1 !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+
+  <!-- Top App Bar -->
+  <header class="sticky top-0 z-30 bg-[#243e2f] text-[#f4ebd9] shadow-md">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-[#b88a3b]/20 border border-[#b88a3b]/50 flex items-center justify-center text-[#e2be79]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-serif-display text-2xl font-bold leading-none tracking-wide text-[#f4ebd9]">Bookshelf</h1>
+            <span id="syncBadge" onclick="openBackupModal()" class="cursor-pointer text-[10px] px-2 py-0.5 rounded-full bg-[#355844] text-[#c7d3cc] font-medium">Local Only</span>
+          </div>
+          <p class="text-[11px] text-[#c7d3cc] tracking-wide mt-0.5">Personal Library &amp; Lending Tracker</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <button onclick="openScannerModal()" title="Scan ISBN Barcode" class="px-2.5 py-2 rounded-lg bg-[#355844] hover:bg-[#416b53] text-[#f4ebd9] text-xs font-medium flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 text-[#e2be79]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M7 12h10" />
+          </svg>
+          <span class="hidden sm:inline">Scan ISBN</span>
+        </button>
+
+        <button onclick="openBackupModal()" title="Cloud Sync & Backup" class="p-2 rounded-lg bg-[#355844] hover:bg-[#416b53] text-[#f4ebd9] transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+          </svg>
+        </button>
+
+        <button onclick="openBookModal()" class="px-3 py-2 rounded-lg bg-[#b88a3b] hover:bg-[#a67a2e] text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span>Add Book</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Summary Strip -->
+    <div class="bg-[#1b3024] border-t border-[#355844]/60">
+      <div class="max-w-5xl mx-auto px-4 py-2 grid grid-cols-4 gap-2 text-center">
+        <div>
+          <div id="statTotal" class="text-sm font-bold text-[#f4ebd9]">0</div>
+          <div class="text-[10px] uppercase tracking-wider text-[#a9b8af]">Books</div>
+        </div>
+        <div>
+          <div id="statLoaned" class="text-sm font-bold text-[#f2b866]">0</div>
+          <div class="text-[10px] uppercase tracking-wider text-[#a9b8af]">Loaned Out</div>
+        </div>
+        <div>
+          <div id="statBuyList" class="text-sm font-bold text-[#8fd3a8]">0</div>
+          <div class="text-[10px] uppercase tracking-wider text-[#a9b8af]">To Buy</div>
+        </div>
+        <div>
+          <div id="statValue" class="text-sm font-bold text-[#f4ebd9]">$0</div>
+          <div class="text-[10px] uppercase tracking-wider text-[#a9b8af]">Est. Value</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Controls -->
+  <main class="max-w-5xl mx-auto px-4 pt-4">
+    <div class="flex flex-col sm:flex-row gap-2 mb-3">
+      <div class="relative flex-1">
+        <svg class="w-4 h-4 text-[#646e68] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+        </svg>
+        <input id="searchInput" type="text" oninput="renderLibrary()" placeholder="Search title, author, ISBN, borrower, or shelf..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-[#e5dec9] text-sm focus:outline-none focus:border-[#243e2f] shadow-sm" />
+      </div>
+
+      <div class="flex gap-2">
+        <select id="shelfFilter" onchange="renderLibrary()" class="px-3 py-2.5 rounded-xl bg-white border border-[#e5dec9] text-xs font-medium text-[#1f2421] focus:outline-none focus:border-[#243e2f] shadow-sm">
+          <option value="ALL">All Locations</option>
+        </select>
+
+        <select id="statusFilter" onchange="renderLibrary()" class="px-3 py-2.5 rounded-xl bg-white border border-[#e5dec9] text-xs font-medium text-[#1f2421] focus:outline-none focus:border-[#243e2f] shadow-sm">
+          <option value="ALL">All Statuses</option>
+          <option value="LOANED">Loaned Out Only</option>
+          <option value="ON_SHELF">On Shelf Only</option>
+          <option value="SHOULD_BUY">Should I Buy List</option>
+          <option value="OWNED">Owned Collection</option>
+        </select>
+
+        <div class="flex rounded-xl bg-white border border-[#e5dec9] p-0.5 shadow-sm">
+          <button id="btnGridView" onclick="setViewMode('grid')" title="Cover Grid" class="p-2 rounded-lg bg-[#243e2f] text-white transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </button>
+          <button id="btnListView" onclick="setViewMode('list')" title="Detailed List" class="p-2 rounded-lg text-[#646e68] hover:text-[#1f2421] transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="categoryBar" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-3 mb-2"></div>
+    <div id="libraryContainer"></div>
+
+    <div id="emptyState" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-[#e5dec9] mt-2">
+      <div class="w-12 h-12 rounded-full bg-[#f4ebd9] text-[#243e2f] flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      </div>
+      <h3 class="font-serif-display text-xl font-bold text-[#1f2421]">No matching books found</h3>
+      <p class="text-xs text-[#646e68] max-w-xs mx-auto mt-1 mb-4">Adjust your filters or add a new book by scanning its barcode or searching its title/ISBN.</p>
+      <button onclick="openBookModal()" class="px-4 py-2 rounded-xl bg-[#243e2f] text-white text-xs font-semibold">+ Add Your First Book</button>
+    </div>
+  </main>
+
+  <!-- ADD / EDIT BOOK MODAL -->
+  <div id="bookModal" class="fixed inset-0 z-40 hidden modal-backdrop flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full max-w-2xl rounded-t-2xl sm:rounded-2xl shadow-2xl max-h-[92vh] flex flex-col overflow-hidden border border-[#e5dec9]">
+      <div class="px-5 py-3.5 bg-[#243e2f] text-[#f4ebd9] flex items-center justify-between">
+        <h2 id="modalTitle" class="font-serif-display text-xl font-bold">Add Book to Library</h2>
+        <button onclick="closeBookModal()" class="p-1 rounded-lg hover:bg-white/10 text-[#f4ebd9]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-5 flex-1">
+        <div class="bg-[#f7f3eb] p-3.5 rounded-xl border border-[#e5dec9]">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-[#243e2f] mb-1.5">Auto-Fill Details &amp; Pricing by ISBN or Title</label>
+          <div class="flex gap-2">
+            <input id="lookupQuery" type="text" placeholder="Enter ISBN (e.g. 9780896084605) or Title + Author..." class="flex-1 px-3 py-2 rounded-lg bg-white border border-[#d6ccb4] text-sm focus:outline-none focus:border-[#243e2f]" onkeydown="if(event.key==='Enter'){event.preventDefault();lookupBookOnline();}" />
+            <button type="button" onclick="lookupBookOnline()" id="btnLookup" class="px-3.5 py-2 rounded-lg bg-[#243e2f] hover:bg-[#355844] text-white text-xs font-semibold whitespace-nowrap transition">
+              Search API
+            </button>
+            <button type="button" onclick="openScannerModal(true)" title="Scan Barcode" class="px-3 py-2 rounded-lg bg-[#b88a3b] hover:bg-[#a67a2e] text-white text-xs font-semibold transition">
+              Scan
+            </button>
+          </div>
+          <div id="lookupResults" class="hidden mt-2.5 space-y-1.5 max-h-48 overflow-y-auto"></div>
+        </div>
+
+        <form id="bookForm" onsubmit="saveBook(event)" class="space-y-4">
+          <input type="hidden" id="bookId" />
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2 space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-[#1f2421] mb-1">Book Title *</label>
+                <input id="fieldTitle" type="text" required placeholder="e.g. Sisters of the Yam" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-sm focus:outline-none focus:border-[#243e2f]" />
+              </div>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-semibold text-[#1f2421] mb-1">Author(s) *</label>
+                  <input id="fieldAuthor" type="text" required placeholder="e.g. bell hooks" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-sm focus:outline-none focus:border-[#243e2f]" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-[#1f2421] mb-1">ISBN</label>
+                  <input id="fieldIsbn" type="text" placeholder="978..." class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-sm focus:outline-none focus:border-[#243e2f]" />
+                </div>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-xs font-semibold text-[#1f2421] mb-1">Publisher</label>
+                  <input id="fieldPublisher" type="text" placeholder="Publisher" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-xs focus:outline-none focus:border-[#243e2f]" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-[#1f2421] mb-1">Year</label>
+                  <input id="fieldYear" type="text" placeholder="2024" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-xs focus:outline-none focus:border-[#243e2f]" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-[#1f2421] mb-1">Pages</label>
+                  <input id="fieldPages" type="number" placeholder="240" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-xs focus:outline-none focus:border-[#243e2f]" />
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-center justify-between bg-[#f7f3eb] p-2.5 rounded-xl border border-[#e5dec9]">
+              <img id="coverPreview" src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60" alt="Cover preview" class="w-24 h-36 object-cover rounded-md shadow border border-[#d6ccb4] bg-white" />
+              <input id="fieldCover" type="url" oninput="updateCoverPreview()" placeholder="Cover Image URL" class="mt-2 w-full px-2 py-1 rounded border border-[#d6ccb4] bg-white text-[11px]" />
+            </div>
+          </div>
+
+          <div class="border-t border-[#e5dec9] pt-4">
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold uppercase tracking-wider text-[#243e2f]">Categories (Select Multiple)</label>
+              <span class="text-[11px] text-[#646e68]">Tap to assign 1 or more tags</span>
+            </div>
+            <div id="modalCategoryChips" class="flex flex-wrap gap-1.5 mb-2"></div>
+            <div class="flex gap-2">
+              <input id="newCategoryInput" type="text" placeholder="Add new category tag..." class="flex-1 px-3 py-1.5 rounded-lg border border-[#d6ccb4] text-xs focus:outline-none focus:border-[#243e2f]" onkeydown="if(event.key==='Enter'){event.preventDefault();addNewCategoryTag();}" />
+              <button type="button" onclick="addNewCategoryTag()" class="px-3 py-1.5 rounded-lg bg-[#f4ebd9] hover:bg-[#e8dcc2] text-[#243e2f] text-xs font-semibold border border-[#d6ccb4]">+ Add Tag</button>
+            </div>
+          </div>
+
+          <div class="border-t border-[#e5dec9] pt-4">
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#243e2f] mb-1.5">Physical Location</label>
+            <input id="fieldShelf" type="text" list="shelfSuggestions" placeholder="Select or type location..." class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-sm focus:outline-none focus:border-[#243e2f]" />
+            <datalist id="shelfSuggestions"></datalist>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <button type="button" onclick="setShelfPreset('Home')" class="text-[11px] px-2.5 py-1 rounded-md bg-[#f4ebd9] hover:bg-[#e5d8bc] text-[#243e2f] font-medium border border-[#e0d4b7]">Home</button>
+              <button type="button" onclick="setShelfPreset('Classroom')" class="text-[11px] px-2.5 py-1 rounded-md bg-[#f4ebd9] hover:bg-[#e5d8bc] text-[#243e2f] font-medium border border-[#e0d4b7]">Classroom</button>
+              <button type="button" onclick="setShelfPreset('8th Period')" class="text-[11px] px-2.5 py-1 rounded-md bg-[#f4ebd9] hover:bg-[#e5d8bc] text-[#243e2f] font-medium border border-[#e0d4b7]">8th Period</button>
+              <button type="button" onclick="setShelfPreset('Ortiz Books')" class="text-[11px] px-2.5 py-1 rounded-md bg-[#f4ebd9] hover:bg-[#e5d8bc] text-[#243e2f] font-medium border border-[#e0d4b7]">Ortiz Books</button>
+            </div>
+          </div>
+
+          <div class="border-t border-[#e5dec9] pt-4">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold uppercase tracking-wider text-[#243e2f]">Lending Tracker</label>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input id="fieldIsLoaned" type="checkbox" onchange="toggleLoanFields()" class="w-4 h-4 accent-[#b88a3b] rounded" />
+                <span class="text-xs font-semibold text-[#1f2421]">Currently Loaned Out</span>
+              </label>
+            </div>
+
+            <div id="loanDetailsBox" class="hidden mt-3 p-3 rounded-xl bg-[#fff8eb] border border-[#f0d9a8] grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div>
+                <label class="block text-[11px] font-semibold text-[#7a5417] mb-1">Borrower Name *</label>
+                <input id="fieldBorrower" type="text" placeholder="Student or friend name" class="w-full px-2.5 py-1.5 rounded-lg bg-white border border-[#e5c98e] text-xs" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-[#7a5417] mb-1">Date Loaned</label>
+                <input id="fieldLoanDate" type="date" class="w-full px-2.5 py-1.5 rounded-lg bg-white border border-[#e5c98e] text-xs" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-[#7a5417] mb-1">Expected Return</label>
+                <input id="fieldDueDate" type="date" class="w-full px-2.5 py-1.5 rounded-lg bg-white border border-[#e5c98e] text-xs" />
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-[#e5dec9] pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-[#243e2f]">Purchase &amp; Market Value</label>
+                <span id="priceLookupBadge" class="hidden text-[10px] font-semibold px-2 py-0.5 rounded bg-[#e8f5ee] text-[#1f5e3b]">Internet Price Found</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] text-[#646e68] mb-1">Purchase Price ($)</label>
+                  <input id="fieldPurchasePrice" type="number" step="0.01" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-sm" />
+                </div>
+                <div>
+                  <label class="block text-[11px] text-[#646e68] mb-1">Est. / List Value ($)</label>
+                  <input id="fieldCurrentValue" type="number" step="0.01" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-sm" />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#243e2f] mb-1.5">Popularity / Should I Buy?</label>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] text-[#646e68] mb-1">Acquisition Status</label>
+                  <select id="fieldBuyStatus" class="w-full px-2.5 py-2 rounded-lg border border-[#d6ccb4] text-xs bg-white font-medium">
+                    <option value="OWNED">Owned (In Library)</option>
+                    <option value="BUY_HIGH">Should Buy: High Priority</option>
+                    <option value="BUY_MAYBE">Should Buy: Maybe / Deal</option>
+                    <option value="BORROWED">Borrowed / Read Only</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[11px] text-[#646e68] mb-1">Popularity / Hype Rating</label>
+                  <select id="fieldRating" class="w-full px-2.5 py-2 rounded-lg border border-[#d6ccb4] text-xs bg-white font-medium">
+                    <option value="5">★★★★★ (5/5 Must-Have)</option>
+                    <option value="4">★★★★☆ (4/5 Great)</option>
+                    <option value="3" selected>★★★☆☆ (3/5 Good)</option>
+                    <option value="2">★★☆☆☆ (2/5 Fair)</option>
+                    <option value="1">★☆☆☆☆ (1/5 Skip)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#1f2421] mb-1">Notes / Recommendation Source</label>
+            <textarea id="fieldNotes" rows="2" placeholder="Edition condition, who recommended it, curriculum unit, etc." class="w-full px-3 py-2 rounded-lg border border-[#d6ccb4] text-xs focus:outline-none focus:border-[#243e2f]"></textarea>
+          </div>
+
+          <div class="pt-2 flex items-center justify-between gap-3 border-t border-[#e5dec9]">
+            <button type="button" id="btnDeleteBook" onclick="promptDeleteBook()" style="background-color:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;" class="hidden px-3.5 py-2.5 rounded-xl text-xs font-bold transition hover:brightness-95">
+              Delete Book
+            </button>
+            <div class="flex items-center gap-2 ml-auto">
+              <button type="button" onclick="closeBookModal()" class="px-4 py-2.5 rounded-xl border border-[#d6ccb4] text-xs font-semibold text-[#646e68] hover:bg-[#f7f3eb]">Cancel</button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#243e2f] hover:bg-[#355844] text-white text-xs font-semibold shadow-sm">Save Book</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO-STEP DELETE CONFIRMATION MODAL -->
+  <div id="deleteConfirmModal" class="fixed inset-0 z-[60] hidden modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden border-2 border-[#dc2626] p-5 text-center relative z-10">
+      <div style="background-color:#fee2e2;color:#dc2626;" class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+        </svg>
+      </div>
+      <h3 class="font-serif-display text-xl font-bold text-[#991b1b]">Confirm Book Deletion</h3>
+      <p class="text-xs text-[#1f2421] mt-1.5 leading-relaxed">
+        Are you sure you want to permanently remove <span id="deleteTargetTitle" class="font-bold text-[#991b1b]">this book</span> from your Bookshelf? This cannot be undone.
+      </p>
+      <div class="mt-5 flex items-center gap-2.5">
+        <button type="button" onclick="closeDeleteConfirmModal()" style="background-color:#f3f4f6;color:#374151;border:1px solid #d1d5db;" class="flex-1 py-2.5 rounded-xl text-xs font-semibold">
+          Cancel
+        </button>
+        <button type="button" onclick="confirmDeleteBook()" class="btn-alert-red flex-1 py-2.5 rounded-xl text-xs tracking-wide uppercase active:scale-95 transition">
+          Yes, Delete Book
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARCODE SCANNER MODAL -->
+  <div id="scannerModal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-[#e5dec9]">
+      <div class="px-4 py-3 bg-[#243e2f] text-[#f4ebd9] flex items-center justify-between">
+        <h3 class="font-serif-display text-lg font-bold">Scan Book Barcode (ISBN)</h3>
+        <button onclick="closeScannerModal()" class="p-1 rounded-lg hover:bg-white/10">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-4 text-center">
+        <div id="reader" class="w-full rounded-xl overflow-hidden bg-black min-h-[240px]"></div>
+        <p id="scannerStatus" class="text-xs text-[#646e68] mt-3">Point your phone camera at the back-cover ISBN barcode.</p>
+        <button onclick="closeScannerModal()" class="mt-3 px-4 py-2 rounded-xl bg-[#f4ebd9] text-[#243e2f] text-xs font-semibold">Close Camera</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOUD SYNC & BACKUP MODAL -->
+  <div id="backupModal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-[#e5dec9]">
+      <div class="px-4 py-3 bg-[#243e2f] text-[#f4ebd9] flex items-center justify-between">
+        <h3 class="font-serif-display text-lg font-bold">Phone &amp; Computer Cloud Sync</h3>
+        <button onclick="closeBackupModal()" class="p-1 rounded-lg hover:bg-white/10">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-3.5 text-xs">
+        <div class="p-3 rounded-xl bg-[#f7f3eb] border border-[#e5dec9] space-y-2">
+          <label class="block font-bold text-[#243e2f] uppercase tracking-wider text-[11px]">Google Sheets Cloud Sync URL</label>
+          <p class="text-[#646e68] leading-relaxed">Paste your Google Apps Script Web App URL below on both your phone and computer so both devices share the exact same live book list.</p>
+          <input id="cloudUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 rounded-lg bg-white border border-[#d6ccb4] text-xs" />
+          <div class="flex gap-2">
+            <button onclick="saveCloudUrl()" class="flex-1 py-2 px-3 rounded-lg bg-[#243e2f] text-white font-semibold">Connect &amp; Sync Now</button>
+            <button onclick="pullFromCloud(true)" class="py-2 px-3 rounded-lg bg-[#f4ebd9] text-[#243e2f] font-semibold border border-[#d6ccb4]">Refresh</button>
+          </div>
+        </div>
+
+        <button onclick="exportCSV()" class="w-full py-2.5 px-4 rounded-xl bg-[#355844] hover:bg-[#243e2f] text-white font-semibold flex items-center justify-center gap-2">
+          <span>Download CSV Spreadsheet (.csv)</span>
+        </button>
+        <button onclick="exportJSON()" class="w-full py-2.5 px-4 rounded-xl bg-[#b88a3b] hover:bg-[#a67a2e] text-white font-semibold flex items-center justify-center gap-2">
+          <span>Download Full Backup (.json)</span>
+        </button>
+        <div class="pt-2 border-t border-[#e5dec9]">
+          <label class="block font-semibold text-[#1f2421] mb-1">Restore from JSON Backup</label>
+          <input type="file" accept=".json" onchange="importJSON(event)" class="w-full text-xs text-[#646e68] file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#f4ebd9] file:text-[#243e2f] file:font-semibold" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-full bg-[#1f2421] text-white text-xs font-medium shadow-lg transition-opacity"></div>
+
+  <script>
+    const STORAGE_KEY = 'bookshelf_library_v2';
+    const CATS_KEY = 'bookshelf_categories_v2';
+    const CLOUD_URL_KEY = 'bookshelf_cloud_sync_url_v1';
+    const DEFAULT_SHELVES = ['Home', 'Classroom', '8th Period', 'Ortiz Books'];
+
+    const DEFAULT_CATEGORIES = [
+      'Self-Recovery',
+      'Business Strategy',
+      'Financial Literacy',
+      'Classroom Library',
+      '8th Period',
+      'Ortiz Books',
+      'Education & Leadership',
+      '2026 Reading List'
+    ];
+
+    const SAMPLE_BOOKS = [
+      {
+        id: 'bk-1',
+        title: 'Sisters of the Yam: Black Women and Self-Recovery',
+        author: 'bell hooks',
+        isbn: '9781138821682',
+        publisher: 'Routledge',
+        year: '2014',
+        pages: 174,
+        cover: 'https://covers.openlibrary.org/b/isbn/9781138821682-L.jpg',
+        categories: ['Self-Recovery', '2026 Reading List'],
+        shelf: 'Home',
+        isLoaned: false,
+        borrower: '',
+        loanDate: '',
+        dueDate: '',
+        purchasePrice: 18.95,
+        currentValue: 24.95,
+        buyStatus: 'OWNED',
+        rating: 5,
+        notes: 'Core personal growth & wellness reading.'
+      },
+      {
+        id: 'bk-2',
+        title: 'The Nickel Boys',
+        author: 'Colson Whitehead',
+        isbn: '9780385537070',
+        publisher: 'Doubleday',
+        year: '2019',
+        pages: 224,
+        cover: 'https://covers.openlibrary.org/b/isbn/9780385537070-L.jpg',
+        categories: ['Classroom Library', '8th Period'],
+        shelf: '8th Period',
+        isLoaned: true,
+        borrower: 'Maya R.',
+        loanDate: '2026-11-04',
+        dueDate: '2026-11-25',
+        purchasePrice: 14.50,
+        currentValue: 16.95,
+        buyStatus: 'OWNED',
+        rating: 5,
+        notes: 'Pulitzer winner; loaned to student for independent reading.'
+      },
+      {
+        id: 'bk-3',
+        title: 'Profit First: Transform Your Business from a Cash-Eating Monster to a Money-Making Machine',
+        author: 'Mike Michalowicz',
+        isbn: '9780735214149',
+        publisher: 'Portfolio',
+        year: '2017',
+        pages: 224,
+        cover: 'https://covers.openlibrary.org/b/isbn/9780735214149-L.jpg',
+        categories: ['Business Strategy', 'Financial Literacy'],
+        shelf: 'Home',
+        isLoaned: false,
+        borrower: '',
+        loanDate: '',
+        dueDate: '',
+        purchasePrice: 19.00,
+        currentValue: 28.00,
+        buyStatus: 'OWNED',
+        rating: 5,
+        notes: 'Cash-flow allocation framework for small business operations.'
+      },
+      {
+        id: 'bk-4',
+        title: 'Commercial Real Estate Investing For Dummies',
+        author: 'Peter Conti & Peter Harris',
+        isbn: '9780470127162',
+        publisher: 'For Dummies',
+        year: '2008',
+        pages: 384,
+        cover: 'https://covers.openlibrary.org/b/isbn/9780470127162-L.jpg',
+        categories: ['Business Strategy', 'Financial Literacy', '2026 Reading List'],
+        shelf: 'Ortiz Books',
+        isLoaned: false,
+        borrower: '',
+        loanDate: '',
+        dueDate: '',
+        purchasePrice: 0,
+        currentValue: 24.99,
+        buyStatus: 'BUY_HIGH',
+        rating: 4,
+        notes: 'Recommended pre-study before CCIM coursework.'
+      }
+    ];
+
+    let books = [];
+    let categories = [];
+    let activeCategory = 'ALL';
+    let viewMode = 'grid';
+    let selectedModalCategories = new Set();
+    let html5QrCode = null;
+    let returnToBookModalAfterScan = false;
+    let pendingDeleteBookId = null;
+
+    function getCloudUrl() {
+      return (localStorage.getItem(CLOUD_URL_KEY) || '').trim();
+    }
+
+    function updateSyncBadge(statusText, isConnected = false) {
+      const badge = document.getElementById('syncBadge');
+      if (!badge) return;
+      badge.textContent = statusText;
+      badge.className = isConnected
+        ? 'cursor-pointer text-[10px] px-2 py-0.5 rounded-full bg-[#166534] text-[#dcfce7] font-semibold'
+        : 'cursor-pointer text-[10px] px-2 py-0.5 rounded-full bg-[#355844] text-[#c7d3cc] font-medium';
+    }
+
+    function loadStateFromStorage() {
+      const savedBooks = localStorage.getItem(STORAGE_KEY);
+      const savedCats = localStorage.getItem(CATS_KEY);
+
+      if (savedBooks) {
+        try {
+          books = JSON.parse(savedBooks);
+        } catch {
+          books = SAMPLE_BOOKS;
+        }
+      } else {
+        books = SAMPLE_BOOKS;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+      }
+
+      if (savedCats) {
+        try {
+          categories = JSON.parse(savedCats);
+        } catch {
+          categories = [...DEFAULT_CATEGORIES];
+        }
+      } else {
+        categories = [...DEFAULT_CATEGORIES];
+        localStorage.setItem(CATS_KEY, JSON.stringify(categories));
+      }
+    }
+
+    function syncFromStorage(notify = false) {
+      loadStateFromStorage();
+      renderCategoryBar();
+      refreshShelfOptions();
+      renderLibrary();
+      if (notify) showToast('Library synced');
+    }
+
+    async function pushToCloud() {
+      const url = getCloudUrl();
+      if (!url) return;
+      updateSyncBadge('Syncing...', true);
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ books, categories, updatedAt: new Date().toISOString() })
+        });
+        updateSyncBadge('Cloud Synced', true);
+      } catch {
+        updateSyncBadge('Sync Offline', false);
+      }
+    }
+
+    async function pullFromCloud(notify = false) {
+      const url = getCloudUrl();
+      if (!url) {
+        updateSyncBadge('Local Only', false);
+        return;
+      }
+      updateSyncBadge('Syncing...', true);
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Fetch failed');
+        const data = await res.json();
+        if (data && Array.isArray(data.books)) {
+          if (data.books.length > 0) {
+            books = data.books;
+            if (Array.isArray(data.categories) && data.categories.length > 0) {
+              categories = data.categories;
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+            localStorage.setItem(CATS_KEY, JSON.stringify(categories));
+            renderCategoryBar();
+            refreshShelfOptions();
+            renderLibrary();
+          } else if (books.length > 0) {
+            await pushToCloud();
+          }
+          updateSyncBadge('Cloud Synced', true);
+          if (notify) showToast('Synced with Google Sheet');
+        }
+      } catch {
+        updateSyncBadge('Sync Offline', false);
+        if (notify) showToast('Could not reach Google Sheet');
+      }
+    }
+
+    function saveCloudUrl() {
+      const val = document.getElementById('cloudUrlInput').value.trim();
+      if (!val) {
+        localStorage.removeItem(CLOUD_URL_KEY);
+        updateSyncBadge('Local Only', false);
+        showToast('Cloud sync disconnected');
+        return;
+      }
+      localStorage.setItem(CLOUD_URL_KEY, val);
+      closeBackupModal();
+      pullFromCloud(true);
+    }
+
+    function initApp() {
+      syncFromStorage(false);
+      if (getCloudUrl()) {
+        pullFromCloud(false);
+      }
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY || e.key === CATS_KEY) {
+          syncFromStorage(true);
+        }
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          syncFromStorage(false);
+          if (getCloudUrl()) pullFromCloud(false);
+        }
+      });
+
+      window.addEventListener('focus', () => {
+        syncFromStorage(false);
+      });
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+      localStorage.setItem(CATS_KEY, JSON.stringify(categories));
+      pushToCloud();
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      clearTimeout(el._timer);
+      el._timer = setTimeout(() => el.classList.add('hidden'), 2600);
+    }
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      const btnGrid = document.getElementById('btnGridView');
+      const btnList = document.getElementById('btnListView');
+      if (mode === 'grid') {
+        btnGrid.className = 'p-2 rounded-lg bg-[#243e2f] text-white transition';
+        btnList.className = 'p-2 rounded-lg text-[#646e68] hover:text-[#1f2421] transition';
+      } else {
+        btnList.className = 'p-2 rounded-lg bg-[#243e2f] text-white transition';
+        btnGrid.className = 'p-2 rounded-lg text-[#646e68] hover:text-[#1f2421] transition';
+      }
+      renderLibrary();
+    }
+
+    function renderCategoryBar() {
+      const bar = document.getElementById('categoryBar');
+      const allCats = ['ALL', ...categories];
+      bar.innerHTML = allCats.map(cat => {
+        const isActive = activeCategory === cat;
+        const count = cat === 'ALL'
+          ? books.length
+          : books.filter(b => (b.categories || []).includes(cat)).length;
+        const label = cat === 'ALL' ? 'All Categories' : cat;
+        return `
+          <button onclick="selectCategory('${cat.replace(/'/g, "\\'")}')"
+            class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap border transition flex items-center gap-1.5 ${
+              isActive
+                ? 'bg-[#243e2f] text-[#f4ebd9] border-[#243e2f] shadow-sm'
+                : 'bg-white text-[#1f2421] border-[#e5dec9] hover:border-[#243e2f]'
+            }">
+            <span>${label}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-[#f4ebd9] text-[#646e68]'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectCategory(cat) {
+      activeCategory = cat;
+      renderCategoryBar();
+      renderLibrary();
+    }
+
+    function refreshShelfOptions() {
+      const shelfSet = new Set(DEFAULT_SHELVES);
+      books.forEach(b => { if (b.shelf && b.shelf.trim()) shelfSet.add(b.shelf.trim()); });
+      const shelves = Array.from(shelfSet);
+
+      const filterEl = document.getElementById('shelfFilter');
+      const currentVal = filterEl.value;
+      filterEl.innerHTML = `<option value="ALL">All Locations</option>` +
+        shelves.map(s => `<option value="${s}">${s}</option>`).join('');
+      if (shelves.includes(currentVal)) filterEl.value = currentVal;
+
+      const datalist = document.getElementById('shelfSuggestions');
+      datalist.innerHTML = shelves.map(s => `<option value="${s}">`).join('');
+    }
+
+    function updateStats() {
+      document.getElementById('statTotal').textContent = books.length;
+      document.getElementById('statLoaned').textContent = books.filter(b => b.isLoaned).length;
+      document.getElementById('statBuyList').textContent = books.filter(b => b.buyStatus && b.buyStatus.startsWith('BUY_')).length;
+      const totalVal = books.reduce((sum, b) => sum + (parseFloat(b.currentValue) || parseFloat(b.purchasePrice) || 0), 0);
+      document.getElementById('statValue').textContent = '$' + totalVal.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    }
+
+    function getBuyBadge(status) {
+      switch (status) {
+        case 'BUY_HIGH':
+          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#dcfce7] text-[#166534] border border-[#bbf7d0]">Buy Next</span>`;
+        case 'BUY_MAYBE':
+          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#fef9c3] text-[#854d0e] border border-[#fef08a]">Watch / Maybe</span>`;
+        case 'BORROWED':
+          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#e0f2fe] text-[#075985] border border-[#bae6fd]">Borrowed</span>`;
+        default:
+          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-[#f4ebd9] text-[#243e2f]">Owned</span>`;
+      }
+    }
+
+    function renderStars(rating) {
+      const r = parseInt(rating) || 0;
+      return '★'.repeat(r) + '<span class="text-[#d6ccb4]">' + '★'.repeat(5 - r) + '</span>';
+    }
+
+    function renderLibrary() {
+      updateStats();
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const shelfVal = document.getElementById('shelfFilter').value;
+      const statusVal = document.getElementById('statusFilter').value;
+
+      const filtered = books.filter(b => {
+        if (activeCategory !== 'ALL' && !(b.categories || []).includes(activeCategory)) return false;
+        if (shelfVal !== 'ALL' && (b.shelf || '') !== shelfVal) return false;
+        if (statusVal === 'LOANED' && !b.isLoaned) return false;
+        if (statusVal === 'ON_SHELF' && b.isLoaned) return false;
+        if (statusVal === 'SHOULD_BUY' && !(b.buyStatus || '').startsWith('BUY_')) return false;
+        if (statusVal === 'OWNED' && b.buyStatus !== 'OWNED') return false;
+
+        if (q) {
+          const hay = [
+            b.title, b.author, b.isbn, b.shelf, b.borrower, b.notes,
+            ...(b.categories || [])
+          ].join(' ').toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const container = document.getElementById('libraryContainer');
+      const emptyState = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      if (viewMode === 'grid') {
+        container.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5';
+        container.innerHTML = filtered.map(b => {
+          const coverUrl = b.cover || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
+          const priceDisplay = b.currentValue ? `$${Number(b.currentValue).toFixed(2)}` : (b.purchasePrice ? `$${Number(b.purchasePrice).toFixed(2)}` : '');
+          return `
+            <div onclick="openBookModal('${b.id}')" class="bg-white rounded-2xl border border-[#e5dec9] overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
+              <div>
+                <div class="relative aspect-[2/3] bg-[#efe8d8] overflow-hidden">
+                  <img src="${coverUrl}" alt="${b.title}" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60'" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                  ${b.isLoaned ? `
+                    <div class="absolute top-2 left-2 right-2 px-2 py-1 rounded-lg bg-[#9a3412]/95 text-white text-[10px] font-bold shadow">
+                      Loaned: ${b.borrower || 'Out'}
+                    </div>
+                  ` : ''}
+                  <div class="absolute bottom-2 right-2">
+                    ${getBuyBadge(b.buyStatus)}
+                  </div>
+                </div>
+                <div class="p-3">
+                  <div class="text-[11px] font-semibold text-[#b88a3b] tracking-tight">${renderStars(b.rating)}</div>
+                  <h3 class="font-serif-display text-base font-bold text-[#1f2421] leading-snug line-clamp-2 mt-0.5">${b.title}</h3>
+                  <p class="text-xs text-[#646e68] truncate mt-0.5">${b.author}</p>
+
+                  <div class="flex flex-wrap gap-1 mt-2">
+                    ${(b.categories || []).slice(0, 3).map(c => `
+                      <span class="px-1.5 py-0.5 rounded bg-[#f7f3eb] text-[#243e2f] border border-[#e5dec9] text-[10px] font-medium">${c}</span>
+                    `).join('')}
+                    ${(b.categories || []).length > 3 ? `<span class="text-[10px] text-[#646e68] self-center">+${b.categories.length - 3}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-3 py-2 bg-[#faf7f0] border-t border-[#efe9d8] flex items-center justify-between text-[11px] text-[#646e68]">
+                <span class="truncate max-w-[70%]" title="${b.shelf \vert{}\vert{} 'Unassigned'}">📍 ${b.shelf || 'No Location'}</span>
+                <span class="font-semibold text-[#1f2421]">${priceDisplay}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        container.className = 'space-y-2.5';
+        container.innerHTML = filtered.map(b => {
+          const coverUrl = b.cover || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
+          return `
+            <div onclick="openBookModal('${b.id}')" class="bg-white rounded-xl border border-[#e5dec9] p-3 shadow-sm hover:shadow-md transition cursor-pointer flex gap-3.5 items-start">
+              <img src="${coverUrl}" alt="${b.title}" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60'" class="w-16 h-24 object-cover rounded-lg border border-[#e5dec9] flex-shrink-0" />
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center justify-between gap-1">
+                  <h3 class="font-serif-display text-lg font-bold text-[#1f2421] leading-tight truncate">${b.title}</h3>
+                  <div class="flex items-center gap-1.5">
+                    ${b.isLoaned ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-100 text-orange-800 border border-orange-200">Loaned to ${b.borrower}</span>` : ''}
+                    ${getBuyBadge(b.buyStatus)}
+                  </div>
+                </div>
+                <p class="text-xs text-[#646e68] mt-0.5">${b.author}${b.year ? `• ${b.year}` : ''} • <span class="text-[#b88a3b]">${renderStars(b.rating)}</span></p>
+
+                <div class="flex flex-wrap gap-1 mt-2">
+                  ${(b.categories || []).map(c => `
+                    <span class="px-2 py-0.5 rounded-md bg-[#f7f3eb] text-[#243e2f] border border-[#e5dec9] text-[10px] font-medium">${c}</span>
+                  `).join('')}
+                </div>
+
+                <div class="mt-2 pt-2 border-t border-[#f0eadb] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#646e68]">
+                  <span>📍 <strong>Location:</strong> ${b.shelf || 'Unassigned'}</span>
+                  <span>
+                    ${b.purchasePrice ? `Paid: <strong>$${Number(b.purchasePrice).toFixed(2)}</strong>` : ''}
+                    ${b.currentValue ? ` • Value: <strong>$${Number(b.currentValue).toFixed(2)}</strong>` : ''}
+                  </span>
+                </div>
+              </div>
+              ${b.isLoaned ? `
+                <button onclick="event.stopPropagation();quickReturnBook('${b.id}')" class="px-2.5 py-1.5 rounded-lg bg-[#243e2f] text-white text-[11px] font-semibold whitespace-nowrap self-center">
+                  Mark Returned
+                </button>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function quickReturnBook(id) {
+      const idx = books.findIndex(b => b.id === id);
+      if (idx === -1) return;
+      books[idx].isLoaned = false;
+      books[idx].borrower = '';
+      books[idx].loanDate = '';
+      books[idx].dueDate = '';
+      saveState();
+      renderLibrary();
+      showToast('Book marked as returned');
+    }
+
+    function renderModalCategoryChips() {
+      const wrap = document.getElementById('modalCategoryChips');
+      wrap.innerHTML = categories.map(cat => {
+        const active = selectedModalCategories.has(cat);
+        return `
+          <button type="button" onclick="toggleModalCategory('${cat.replace(/'/g, "\\'")}')"
+            class="px-2.5 py-1 rounded-lg text-xs font-medium border transition flex items-center gap-1 ${
+              active
+                ? 'bg-[#243e2f] text-white border-[#243e2f]'
+                : 'bg-[#f7f3eb] text-[#1f2421] border-[#d6ccb4] hover:border-[#243e2f]'
+            }">
+            <span>${active ? '✓' : '+'}</span>
+            <span>${cat}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleModalCategory(cat) {
+      if (selectedModalCategories.has(cat)) {
+        selectedModalCategories.delete(cat);
+      } else {
+        selectedModalCategories.add(cat);
+      }
+      renderModalCategoryChips();
+    }
+
+    function addNewCategoryTag() {
+      const input = document.getElementById('newCategoryInput');
+      const val = input.value.trim();
+      if (!val) return;
+      if (!categories.includes(val)) {
+        categories.push(val);
+        saveState();
+        renderCategoryBar();
+      }
+      selectedModalCategories.add(val);
+      input.value = '';
+      renderModalCategoryChips();
+    }
+
+    function setShelfPreset(val) {
+      document.getElementById('fieldShelf').value = val;
+    }
+
+    function toggleLoanFields() {
+      const checked = document.getElementById('fieldIsLoaned').checked;
+      const box = document.getElementById('loanDetailsBox');
+      if (checked) {
+        box.classList.remove('hidden');
+        if (!document.getElementById('fieldLoanDate').value) {
+          document.getElementById('fieldLoanDate').value = new Date().toISOString().split('T')[0];
+        }
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    function updateCoverPreview() {
+      const url = document.getElementById('fieldCover').value.trim();
+      document.getElementById('coverPreview').src = url || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
+    }
+
+    function openBookModal(bookId = null) {
+      document.getElementById('bookForm').reset();
+      document.getElementById('lookupResults').classList.add('hidden');
+      document.getElementById('lookupQuery').value = '';
+      document.getElementById('priceLookupBadge').classList.add('hidden');
+      selectedModalCategories.clear();
+
+      if (bookId) {
+        const b = books.find(item => item.id === bookId);
+        if (!b) return;
+        document.getElementById('modalTitle').textContent = 'Edit Book Details';
+        document.getElementById('bookId').value = b.id;
+        document.getElementById('fieldTitle').value = b.title || '';
+        document.getElementById('fieldAuthor').value = b.author || '';
+        document.getElementById('fieldIsbn').value = b.isbn || '';
+        document.getElementById('fieldPublisher').value = b.publisher || '';
+        document.getElementById('fieldYear').value = b.year || '';
+        document.getElementById('fieldPages').value = b.pages || '';
+        document.getElementById('fieldCover').value = b.cover || '';
+        document.getElementById('fieldShelf').value = b.shelf || '';
+        document.getElementById('fieldIsLoaned').checked = !!b.isLoaned;
+        document.getElementById('fieldBorrower').value = b.borrower || '';
+        document.getElementById('fieldLoanDate').value = b.loanDate || '';
+        document.getElementById('fieldDueDate').value = b.dueDate || '';
+        document.getElementById('fieldPurchasePrice').value = b.purchasePrice || '';
+        document.getElementById('fieldCurrentValue').value = b.currentValue || '';
+        document.getElementById('fieldBuyStatus').value = b.buyStatus || 'OWNED';
+        document.getElementById('fieldRating').value = b.rating || '3';
+        document.getElementById('fieldNotes').value = b.notes || '';
+        (b.categories || []).forEach(c => selectedModalCategories.add(c));
+        document.getElementById('btnDeleteBook').classList.remove('hidden');
+      } else {
+        document.getElementById('modalTitle').textContent = 'Add Book to Library';
+        document.getElementById('bookId').value = '';
+        document.getElementById('btnDeleteBook').classList.add('hidden');
+      }
+
+      updateCoverPreview();
+      toggleLoanFields();
+      renderModalCategoryChips();
+      document.getElementById('bookModal').classList.remove('hidden');
+    }
+
+    function closeBookModal() {
+      document.getElementById('bookModal').classList.add('hidden');
+    }
+
+    function saveBook(e) {
+      e.preventDefault();
+      const id = document.getElementById('bookId').value || ('bk-' + Date.now());
+      const isLoaned = document.getElementById('fieldIsLoaned').checked;
+
+      const bookData = {
+        id,
+        title: document.getElementById('fieldTitle').value.trim(),
+        author: document.getElementById('fieldAuthor').value.trim(),
+        isbn: document.getElementById('fieldIsbn').value.trim(),
+        publisher: document.getElementById('fieldPublisher').value.trim(),
+        year: document.getElementById('fieldYear').value.trim(),
+        pages: parseInt(document.getElementById('fieldPages').value) || '',
+        cover: document.getElementById('fieldCover').value.trim(),
+        categories: Array.from(selectedModalCategories),
+        shelf: document.getElementById('fieldShelf').value.trim(),
+        isLoaned,
+        borrower: isLoaned ? document.getElementById('fieldBorrower').value.trim() : '',
+        loanDate: isLoaned ? document.getElementById('fieldLoanDate').value : '',
+        dueDate: isLoaned ? document.getElementById('fieldDueDate').value : '',
+        purchasePrice: parseFloat(document.getElementById('fieldPurchasePrice').value) || 0,
+        currentValue: parseFloat(document.getElementById('fieldCurrentValue').value) || 0,
+        buyStatus: document.getElementById('fieldBuyStatus').value,
+        rating: parseInt(document.getElementById('fieldRating').value) || 3,
+        notes: document.getElementById('fieldNotes').value.trim()
+      };
+
+      const existingIdx = books.findIndex(b => b.id === id);
+      if (existingIdx >= 0) {
+        books[existingIdx] = bookData;
+        showToast('Book updated');
+      } else {
+        books.unshift(bookData);
+        showToast('Book added to Bookshelf');
+      }
+
+      saveState();
+      refreshShelfOptions();
+      renderCategoryBar();
+      renderLibrary();
+      closeBookModal();
+    }
+
+    // TWO-STEP DELETE FLOW
+    function promptDeleteBook() {
+      const id = document.getElementById('bookId').value;
+      if (!id) return;
+      const target = books.find(b => b.id === id);
+      pendingDeleteBookId = id;
+      document.getElementById('deleteTargetTitle').textContent = target ? `"${target.title}"` : 'this book';
+      document.getElementById('deleteConfirmModal').classList.remove('hidden');
+    }
+
+    function closeDeleteConfirmModal() {
+      pendingDeleteBookId = null;
+      document.getElementById('deleteConfirmModal').classList.add('hidden');
+    }
+
+    function confirmDeleteBook() {
+      if (!pendingDeleteBookId) return;
+      books = books.filter(b => b.id !== pendingDeleteBookId);
+      saveState();
+      refreshShelfOptions();
+      renderCategoryBar();
+      renderLibrary();
+      closeDeleteConfirmModal();
+      closeBookModal();
+      showToast('Book permanently deleted');
+    }
+
+    // GOOGLE BOOKS + OPEN LIBRARY API LOOKUP WITH INTERNET PRICING
+    async function lookupBookOnline(forcedQuery = null) {
+      const q = (forcedQuery || document.getElementById('lookupQuery').value).trim();
+      if (!q) return;
+
+      const btn = document.getElementById('btnLookup');
+      const resultsBox = document.getElementById('lookupResults');
+      btn.textContent = 'Searching...';
+      btn.disabled = true;
+      resultsBox.classList.remove('hidden');
+      resultsBox.innerHTML = `<div class="text-xs text-[#646e68] py-2">Searching Google Books &amp; Open Library for details and pricing...</div>`;
+
+      try {
+        const cleanIsbn = q.replace(/[^0-9Xx]/g, '');
+        const isIsbn = cleanIsbn.length === 10 || cleanIsbn.length === 13;
+        const gbQuery = isIsbn ? `isbn:${cleanIsbn}` : encodeURIComponent(q);
+
+        const [gbRes, olRes] = await Promise.allSettled([
+          fetch(`https://www.googleapis.com/books/v1/volumes?q=${gbQuery}&maxResults=6`), fetch(isIsbn ? `https://openlibrary.org/search.json?isbn=${cleanIsbn}&limit=4`
+            : `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=4` ) ]);  let mergedItems = [];  if (gbRes.status === 'fulfilled' && gbRes.value.ok) { const gbData = await gbRes.value.json(); if (gbData.items && gbData.items.length > 0) { mergedItems = gbData.items.map(item => { const v = item.volumeInfo \vert{}\vert{} {}; const s = item.saleInfo \vert{}\vert{} {}; const identifiers = v.industryIdentifiers \vert{}\vert{} []; const isbnObj = identifiers.find(i => i.type === 'ISBN_13') \vert{}\vert{} identifiers.find(i => i.type === 'ISBN_10'); const isbn = isbnObj ? isbnObj.identifier : (isIsbn ? cleanIsbn : '');  let price = 0; if (s.retailPrice && s.retailPrice.amount) { price = Number(s.retailPrice.amount); } else if (s.listPrice && s.listPrice.amount) { price = Number(s.listPrice.amount); }  let thumb = v.imageLinks ? (v.imageLinks.thumbnail \vert{}\vert{} v.imageLinks.smallThumbnail \vert{}\vert{} '') : ''; if (thumb.startsWith('http://')) thumb = thumb.replace('http://', 'https://');  return { title: v.title \vert{}\vert{} 'Untitled', author: v.authors ? v.authors.join(', ') : 'Unknown Author', isbn, publisher: v.publisher \vert{}\vert{} '', year: v.publishedDate ? v.publishedDate.slice(0, 4) : '', pages: v.pageCount \vert{}\vert{} '', cover: thumb, price }; }); } }  if (mergedItems.length === 0 && olRes.status === 'fulfilled' && olRes.value.ok) { const olData = await olRes.value.json(); if (olData.docs && olData.docs.length > 0) { mergedItems = olData.docs.map(doc => { const isbn = (doc.isbn && doc.isbn[0]) \vert{}\vert{} (isIsbn ? cleanIsbn : ''); const cover = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`
+                : (isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg` : ''); return { title: doc.title \vert{}\vert{} 'Untitled', author: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author', isbn, publisher: doc.publisher ? doc.publisher[0] : '', year: doc.first_publish_year \vert{}\vert{} '', pages: doc.number_of_pages_median \vert{}\vert{} '', cover, price: 0 }; }); } }  if (mergedItems.length === 0) { resultsBox.innerHTML = `<div class="text-xs text-red-700 py-1">No matching books found. You can enter details manually below.</div>`; } else { window._lastLookupDocs = mergedItems; resultsBox.innerHTML = mergedItems.map((item, idx) => { const thumb = item.cover \vert{}\vert{} 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=100&q=50'; const priceTag = item.price > 0 ? `<span class="text-[10px] font-bold text-[#1f5e3b] bg-[#e8f5ee] px-1.5 py-0.5 rounded">$${item.price.toFixed(2)}</span>`
+              : `<span class="text-[10px] text-[#646e68]">Est. price</span>`;
+            return `
+              <button type="button" onclick="applyLookupDoc(${idx})" class="w-full text-left p-2 rounded-lg bg-white hover:bg-[#f4ebd9] border border-[#e5dec9] flex items-center gap-2.5 transition">
+                <img src="${thumb}" class="w-9 h-12 object-cover rounded border border-[#d6ccb4] flex-shrink-0" />
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="text-xs font-bold text-[#1f2421] truncate">${item.title}</div>${priceTag}
+                  </div>
+                  <div class="text-[11px] text-[#646e68] truncate">${item.author}${item.year ? `(${item.year})` : ''}</div>
+                </div>
+                <span class="text-[11px] font-semibold text-[#243e2f] px-2 py-1 rounded bg-[#f4ebd9]">Select</span>
+              </button>
+            `;
+          }).join('');
+
+          if (isIsbn && mergedItems.length === 1) {
+            applyLookupDoc(0);
+          }
+        }
+      } catch (err) {
+        resultsBox.innerHTML = `<div class="text-xs text-red-700 py-1">Lookup failed. Check your internet connection.</div>`;
+      } finally {
+        btn.textContent = 'Search API';
+        btn.disabled = false;
+      }
+    }
+
+    function applyLookupDoc(idx) {
+      const item = (window._lastLookupDocs || [])[idx];
+      if (!item) return;
+
+      document.getElementById('fieldTitle').value = item.title || '';
+      document.getElementById('fieldAuthor').value = item.author || '';
+      document.getElementById('fieldIsbn').value = item.isbn || '';
+      document.getElementById('fieldPublisher').value = item.publisher || '';
+      document.getElementById('fieldYear').value = item.year || '';
+      document.getElementById('fieldPages').value = item.pages || '';
+      if (item.cover) {
+        document.getElementById('fieldCover').value = item.cover;
+        updateCoverPreview();
+      }
+
+      let resolvedPrice = item.price;
+      const badge = document.getElementById('priceLookupBadge');
+      if (!resolvedPrice || resolvedPrice <= 0) {
+        const pageCount = parseInt(item.pages) || 250;
+        resolvedPrice = pageCount > 350 ? 24.99 : 17.99;
+        badge.textContent = 'Est. Market Price';
+      } else {
+        badge.textContent = 'Internet Price Found';
+      }
+
+      document.getElementById('fieldCurrentValue').value = resolvedPrice.toFixed(2);
+      if (!document.getElementById('fieldPurchasePrice').value) {
+        document.getElementById('fieldPurchasePrice').value = resolvedPrice.toFixed(2);
+      }
+      badge.classList.remove('hidden');
+
+      document.getElementById('lookupResults').classList.add('hidden');
+      showToast('Book details & pricing auto-filled');
+    }
+
+    // CAMERA BARCODE SCANNER
+    function openScannerModal(fromBookModal = false) {
+      returnToBookModalAfterScan = fromBookModal;
+      document.getElementById('scannerModal').classList.remove('hidden');
+      document.getElementById('scannerStatus').textContent = 'Starting camera...';
+
+      if (typeof Html5Qrcode === 'undefined') {
+        document.getElementById('scannerStatus').textContent = 'Barcode library unavailable offline.';
+        return;
+      }
+
+      html5QrCode = new Html5Qrcode('reader');
+      html5QrCode.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: { width: 250, height: 130 } },
+        (decodedText) => {
+          closeScannerModal();
+          if (!returnToBookModalAfterScan) {
+            openBookModal();
+          }
+          document.getElementById('lookupQuery').value = decodedText;
+          lookupBookOnline(decodedText);
+        },
+        () => {}
+      ).catch(() => {
+        document.getElementById('scannerStatus').textContent = 'Camera access denied or unavailable. Ensure HTTPS is active (e.g. GitHub Pages).';
+      });
+    }
+
+    function closeScannerModal() {
+      document.getElementById('scannerModal').classList.add('hidden');
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => html5QrCode.clear()).catch(() => {});
+        html5QrCode = null;
+      }
+    }
+
+    // EXPORT & CLOUD BACKUP
+    function openBackupModal() {
+      document.getElementById('cloudUrlInput').value = getCloudUrl();
+      document.getElementById('backupModal').classList.remove('hidden');
+    }
+    function closeBackupModal() { document.getElementById('backupModal').classList.add('hidden'); }
+
+    function exportCSV() {
+      const headers = ['Title', 'Author', 'ISBN', 'Categories', 'Physical Location', 'Loaned Out', 'Borrower', 'Loan Date', 'Due Date', 'Purchase Price', 'Est Value', 'Buy Status', 'Rating', 'Notes'];
+      const rows = books.map(b => [
+        b.title, b.author, b.isbn, (b.categories || []).join('; '), b.shelf,
+        b.isLoaned ? 'Yes' : 'No', b.borrower, b.loanDate, b.dueDate,
+        b.purchasePrice, b.currentValue, b.buyStatus, b.rating, b.notes
+      ].map(val => `"${String(val ?? '').replace(/"/g, '""')}"`).join(','));  const csv = [headers.join(','), ...rows].join('\n'); downloadFile(csv, 'bookshelf-library.csv', 'text/csv'); showToast('CSV exported'); }  function exportJSON() { const payload = JSON.stringify({ books, categories, exportedAt: new Date().toISOString() }, null, 2); downloadFile(payload, 'bookshelf-backup.json', 'application/json'); showToast('JSON backup downloaded'); }  function importJSON(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (ev) => { try { const data = JSON.parse(ev.target.result); if (Array.isArray(data.books)) { books = data.books; if (Array.isArray(data.categories)) categories = data.categories; saveState(); renderCategoryBar(); refreshShelfOptions(); renderLibrary(); closeBackupModal(); showToast(`Restored ${books.length} books`);
+          }
+        } catch {
+          showToast('Invalid backup JSON file');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadFile(content, filename, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
