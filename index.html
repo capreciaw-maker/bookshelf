@@ -75,20 +75,20 @@
       </div>
 
       <div class="flex items-center gap-1.5">
-        <button onclick="openScannerModal()" title="Scan ISBN Barcode" class="px-2.5 py-2 rounded-lg bg-[#355844] hover:bg-[#416b53] text-[#f4ebd9] text-xs font-medium flex items-center gap-1.5 transition">
+        <button type="button" onclick="openScannerModal()" title="Scan ISBN Barcode" class="px-2.5 py-2 rounded-lg bg-[#355844] hover:bg-[#416b53] text-[#f4ebd9] text-xs font-medium flex items-center gap-1.5 transition">
           <svg class="w-4 h-4 text-[#e2be79]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M7 12h10" />
           </svg>
           <span class="hidden sm:inline">Scan ISBN</span>
         </button>
 
-        <button onclick="openBackupModal()" title="Cloud Sync & Backup" class="p-2 rounded-lg bg-[#355844] hover:bg-[#416b53] text-[#f4ebd9] transition">
+        <button type="button" onclick="openBackupModal()" title="Cloud Sync & Backup" class="p-2 rounded-lg bg-[#355844] hover:bg-[#416b53] text-[#f4ebd9] transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
           </svg>
         </button>
 
-        <button onclick="openBookModal()" class="px-3 py-2 rounded-lg bg-[#b88a3b] hover:bg-[#a67a2e] text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition">
+        <button type="button" onclick="openBookModal()" class="px-3 py-2 rounded-lg bg-[#b88a3b] hover:bg-[#a67a2e] text-white text-xs font-semibold flex items-center gap-1 shadow-sm transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
           </svg>
@@ -144,12 +144,12 @@
         </select>
 
         <div class="flex rounded-xl bg-white border border-[#e5dec9] p-0.5 shadow-sm">
-          <button id="btnGridView" onclick="setViewMode('grid')" title="Cover Grid" class="p-2 rounded-lg bg-[#243e2f] text-white transition">
+          <button type="button" id="btnGridView" onclick="setViewMode('grid')" title="Cover Grid" class="p-2 rounded-lg bg-[#243e2f] text-white transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
           </button>
-          <button id="btnListView" onclick="setViewMode('list')" title="Detailed List" class="p-2 rounded-lg text-[#646e68] hover:text-[#1f2421] transition">
+          <button type="button" id="btnListView" onclick="setViewMode('list')" title="Detailed List" class="p-2 rounded-lg text-[#646e68] hover:text-[#1f2421] transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -169,7 +169,7 @@
       </div>
       <h3 class="font-serif-display text-xl font-bold text-[#1f2421]">No matching books found</h3>
       <p class="text-xs text-[#646e68] max-w-xs mx-auto mt-1 mb-4">Adjust your filters or add a new book by scanning its barcode or searching its title/ISBN.</p>
-      <button onclick="openBookModal()" class="px-4 py-2 rounded-xl bg-[#243e2f] text-white text-xs font-semibold">+ Add Your First Book</button>
+      <button type="button" onclick="openBookModal()" class="px-4 py-2 rounded-xl bg-[#243e2f] text-white text-xs font-semibold">+ Add Your First Book</button>
     </div>
   </main>
 
@@ -178,7 +178,7 @@
     <div class="bg-white w-full max-w-2xl rounded-t-2xl sm:rounded-2xl shadow-2xl max-h-[92vh] flex flex-col overflow-hidden border border-[#e5dec9]">
       <div class="px-5 py-3.5 bg-[#243e2f] text-[#f4ebd9] flex items-center justify-between">
         <h2 id="modalTitle" class="font-serif-display text-xl font-bold">Add Book to Library</h2>
-        <button onclick="closeBookModal()" class="p-1 rounded-lg hover:bg-white/10 text-[#f4ebd9]">
+        <button type="button" onclick="closeBookModal()" class="p-1 rounded-lg hover:bg-white/10 text-[#f4ebd9]">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -381,7 +381,7 @@
     <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-[#e5dec9]">
       <div class="px-4 py-3 bg-[#243e2f] text-[#f4ebd9] flex items-center justify-between">
         <h3 class="font-serif-display text-lg font-bold">Scan Book Barcode (ISBN)</h3>
-        <button onclick="closeScannerModal()" class="p-1 rounded-lg hover:bg-white/10">
+        <button type="button" onclick="closeScannerModal()" class="p-1 rounded-lg hover:bg-white/10">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -390,7 +390,7 @@
       <div class="p-4 text-center">
         <div id="reader" class="w-full rounded-xl overflow-hidden bg-black min-h-[240px]"></div>
         <p id="scannerStatus" class="text-xs text-[#646e68] mt-3">Point your phone camera at the back-cover ISBN barcode.</p>
-        <button onclick="closeScannerModal()" class="mt-3 px-4 py-2 rounded-xl bg-[#f4ebd9] text-[#243e2f] text-xs font-semibold">Close Camera</button>
+        <button type="button" onclick="closeScannerModal()" class="mt-3 px-4 py-2 rounded-xl bg-[#f4ebd9] text-[#243e2f] text-xs font-semibold">Close Camera</button>
       </div>
     </div>
   </div>
@@ -400,7 +400,7 @@
     <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-[#e5dec9]">
       <div class="px-4 py-3 bg-[#243e2f] text-[#f4ebd9] flex items-center justify-between">
         <h3 class="font-serif-display text-lg font-bold">Phone &amp; Computer Cloud Sync</h3>
-        <button onclick="closeBackupModal()" class="p-1 rounded-lg hover:bg-white/10">
+        <button type="button" onclick="closeBackupModal()" class="p-1 rounded-lg hover:bg-white/10">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -412,15 +412,15 @@
           <p class="text-[#646e68] leading-relaxed">Paste your Google Apps Script Web App URL below on both your phone and computer so both devices share the exact same live book list.</p>
           <input id="cloudUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 rounded-lg bg-white border border-[#d6ccb4] text-xs" />
           <div class="flex gap-2">
-            <button onclick="saveCloudUrl()" class="flex-1 py-2 px-3 rounded-lg bg-[#243e2f] text-white font-semibold">Connect &amp; Sync Now</button>
-            <button onclick="pullFromCloud(true)" class="py-2 px-3 rounded-lg bg-[#f4ebd9] text-[#243e2f] font-semibold border border-[#d6ccb4]">Refresh</button>
+            <button type="button" onclick="saveCloudUrl()" class="flex-1 py-2 px-3 rounded-lg bg-[#243e2f] text-white font-semibold">Connect &amp; Sync Now</button>
+            <button type="button" onclick="pullFromCloud(true)" class="py-2 px-3 rounded-lg bg-[#f4ebd9] text-[#243e2f] font-semibold border border-[#d6ccb4]">Refresh</button>
           </div>
         </div>
 
-        <button onclick="exportCSV()" class="w-full py-2.5 px-4 rounded-xl bg-[#355844] hover:bg-[#243e2f] text-white font-semibold flex items-center justify-center gap-2">
+        <button type="button" onclick="exportCSV()" class="w-full py-2.5 px-4 rounded-xl bg-[#355844] hover:bg-[#243e2f] text-white font-semibold flex items-center justify-center gap-2">
           <span>Download CSV Spreadsheet (.csv)</span>
         </button>
-        <button onclick="exportJSON()" class="w-full py-2.5 px-4 rounded-xl bg-[#b88a3b] hover:bg-[#a67a2e] text-white font-semibold flex items-center justify-center gap-2">
+        <button type="button" onclick="exportJSON()" class="w-full py-2.5 px-4 rounded-xl bg-[#b88a3b] hover:bg-[#a67a2e] text-white font-semibold flex items-center justify-center gap-2">
           <span>Download Full Backup (.json)</span>
         </button>
         <div class="pt-2 border-t border-[#e5dec9]">
@@ -439,6 +439,7 @@
     const CATS_KEY = 'bookshelf_categories_v2';
     const CLOUD_URL_KEY = 'bookshelf_cloud_sync_url_v1';
     const DEFAULT_SHELVES = ['Home', 'Classroom', '8th Period', 'Ortiz Books'];
+    const FALLBACK_COVER = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
 
     const DEFAULT_CATEGORIES = [
       'Self-Recovery',
@@ -547,11 +548,20 @@
     let returnToBookModalAfterScan = false;
     let pendingDeleteBookId = null;
 
+    function escapeHtml(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function getCloudUrl() {
       return (localStorage.getItem(CLOUD_URL_KEY) || '').trim();
     }
 
-    function updateSyncBadge(statusText, isConnected = false) {
+    function updateSyncBadge(statusText, isConnected) {
       const badge = document.getElementById('syncBadge');
       if (!badge) return;
       badge.textContent = statusText;
@@ -567,7 +577,7 @@
       if (savedBooks) {
         try {
           books = JSON.parse(savedBooks);
-        } catch {
+        } catch (err) {
           books = SAMPLE_BOOKS;
         }
       } else {
@@ -578,16 +588,16 @@
       if (savedCats) {
         try {
           categories = JSON.parse(savedCats);
-        } catch {
-          categories = [...DEFAULT_CATEGORIES];
+        } catch (err) {
+          categories = DEFAULT_CATEGORIES.slice();
         }
       } else {
-        categories = [...DEFAULT_CATEGORIES];
+        categories = DEFAULT_CATEGORIES.slice();
         localStorage.setItem(CATS_KEY, JSON.stringify(categories));
       }
     }
 
-    function syncFromStorage(notify = false) {
+    function syncFromStorage(notify) {
       loadStateFromStorage();
       renderCategoryBar();
       refreshShelfOptions();
@@ -604,15 +614,15 @@
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ books, categories, updatedAt: new Date().toISOString() })
+          body: JSON.stringify({ books: books, categories: categories, updatedAt: new Date().toISOString() })
         });
         updateSyncBadge('Cloud Synced', true);
-      } catch {
+      } catch (err) {
         updateSyncBadge('Sync Offline', false);
       }
     }
 
-    async function pullFromCloud(notify = false) {
+    async function pullFromCloud(notify) {
       const url = getCloudUrl();
       if (!url) {
         updateSyncBadge('Local Only', false);
@@ -640,7 +650,7 @@
           updateSyncBadge('Cloud Synced', true);
           if (notify) showToast('Synced with Google Sheet');
         }
-      } catch {
+      } catch (err) {
         updateSyncBadge('Sync Offline', false);
         if (notify) showToast('Could not reach Google Sheet');
       }
@@ -665,20 +675,20 @@
         pullFromCloud(false);
       }
 
-      window.addEventListener('storage', (e) => {
+      window.addEventListener('storage', function(e) {
         if (e.key === STORAGE_KEY || e.key === CATS_KEY) {
           syncFromStorage(true);
         }
       });
 
-      document.addEventListener('visibilitychange', () => {
+      document.addEventListener('visibilitychange', function() {
         if (document.visibilityState === 'visible') {
           syncFromStorage(false);
           if (getCloudUrl()) pullFromCloud(false);
         }
       });
 
-      window.addEventListener('focus', () => {
+      window.addEventListener('focus', function() {
         syncFromStorage(false);
       });
     }
@@ -694,7 +704,9 @@
       el.textContent = msg;
       el.classList.remove('hidden');
       clearTimeout(el._timer);
-      el._timer = setTimeout(() => el.classList.add('hidden'), 2600);
+      el._timer = setTimeout(function() {
+        el.classList.add('hidden');
+      }, 2600);
     }
 
     function setViewMode(mode) {
@@ -713,24 +725,22 @@
 
     function renderCategoryBar() {
       const bar = document.getElementById('categoryBar');
-      const allCats = ['ALL', ...categories];
-      bar.innerHTML = allCats.map(cat => {
+      const allCats = ['ALL'].concat(categories);
+      bar.innerHTML = allCats.map(function(cat) {
         const isActive = activeCategory === cat;
         const count = cat === 'ALL'
           ? books.length
-          : books.filter(b => (b.categories || []).includes(cat)).length;
+          : books.filter(function(b) { return (b.categories || []).indexOf(cat) !== -1; }).length;
         const label = cat === 'ALL' ? 'All Categories' : cat;
-        return `
-          <button onclick="selectCategory('${cat.replace(/'/g, "\\'")}')"
-            class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap border transition flex items-center gap-1.5 ${
-              isActive
-                ? 'bg-[#243e2f] text-[#f4ebd9] border-[#243e2f] shadow-sm'
-                : 'bg-white text-[#1f2421] border-[#e5dec9] hover:border-[#243e2f]'
-            }">
-            <span>${label}</span>
-            <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-[#f4ebd9] text-[#646e68]'}">${count}</span>
-          </button>
-        `;
+        const activeClasses = isActive
+          ? 'bg-[#243e2f] text-[#f4ebd9] border-[#243e2f] shadow-sm'
+          : 'bg-white text-[#1f2421] border-[#e5dec9] hover:border-[#243e2f]';
+        const pillClasses = isActive ? 'bg-white/20 text-white' : 'bg-[#f4ebd9] text-[#646e68]';
+        return '<button type="button" data-cat="' + escapeHtml(cat) + '" onclick="selectCategory(this.getAttribute(\'data-cat\'))" ' +
+          'class="px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap border transition flex items-center gap-1.5 ' + activeClasses + '">' +
+          '<span>' + escapeHtml(label) + '</span>' +
+          '<span class="text-[10px] px-1.5 py-0.2 rounded-full ' + pillClasses + '">' + count + '</span>' +
+          '</button>';
       }).join('');
     }
 
@@ -742,42 +752,52 @@
 
     function refreshShelfOptions() {
       const shelfSet = new Set(DEFAULT_SHELVES);
-      books.forEach(b => { if (b.shelf && b.shelf.trim()) shelfSet.add(b.shelf.trim()); });
+      books.forEach(function(b) {
+        if (b.shelf && b.shelf.trim()) shelfSet.add(b.shelf.trim());
+      });
       const shelves = Array.from(shelfSet);
 
       const filterEl = document.getElementById('shelfFilter');
       const currentVal = filterEl.value;
-      filterEl.innerHTML = `<option value="ALL">All Locations</option>` +
-        shelves.map(s => `<option value="${s}">${s}</option>`).join('');
-      if (shelves.includes(currentVal)) filterEl.value = currentVal;
+      filterEl.innerHTML = '<option value="ALL">All Locations</option>' +
+        shelves.map(function(s) {
+          return '<option value="' + escapeHtml(s) + '">' + escapeHtml(s) + '</option>';
+        }).join('');
+      if (shelves.indexOf(currentVal) !== -1) filterEl.value = currentVal;
 
       const datalist = document.getElementById('shelfSuggestions');
-      datalist.innerHTML = shelves.map(s => `<option value="${s}">`).join('');
+      datalist.innerHTML = shelves.map(function(s) {
+        return '<option value="' + escapeHtml(s) + '">';
+      }).join('');
     }
 
     function updateStats() {
       document.getElementById('statTotal').textContent = books.length;
-      document.getElementById('statLoaned').textContent = books.filter(b => b.isLoaned).length;
-      document.getElementById('statBuyList').textContent = books.filter(b => b.buyStatus && b.buyStatus.startsWith('BUY_')).length;
-      const totalVal = books.reduce((sum, b) => sum + (parseFloat(b.currentValue) || parseFloat(b.purchasePrice) || 0), 0);
+      document.getElementById('statLoaned').textContent = books.filter(function(b) { return b.isLoaned; }).length;
+      document.getElementById('statBuyList').textContent = books.filter(function(b) {
+        return b.buyStatus && b.buyStatus.indexOf('BUY_') === 0;
+      }).length;
+      const totalVal = books.reduce(function(sum, b) {
+        return sum + (parseFloat(b.currentValue) || parseFloat(b.purchasePrice) || 0);
+      }, 0);
       document.getElementById('statValue').textContent = '$' + totalVal.toLocaleString(undefined, { maximumFractionDigits: 0 });
     }
 
     function getBuyBadge(status) {
-      switch (status) {
-        case 'BUY_HIGH':
-          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#dcfce7] text-[#166534] border border-[#bbf7d0]">Buy Next</span>`;
-        case 'BUY_MAYBE':
-          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#fef9c3] text-[#854d0e] border border-[#fef08a]">Watch / Maybe</span>`;
-        case 'BORROWED':
-          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#e0f2fe] text-[#075985] border border-[#bae6fd]">Borrowed</span>`;
-        default:
-          return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-[#f4ebd9] text-[#243e2f]">Owned</span>`;
+      if (status === 'BUY_HIGH') {
+        return '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#dcfce7] text-[#166534] border border-[#bbf7d0]">Buy Next</span>';
       }
+      if (status === 'BUY_MAYBE') {
+        return '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#fef9c3] text-[#854d0e] border border-[#fef08a]">Watch / Maybe</span>';
+      }
+      if (status === 'BORROWED') {
+        return '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#e0f2fe] text-[#075985] border border-[#bae6fd]">Borrowed</span>';
+      }
+      return '<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-[#f4ebd9] text-[#243e2f]">Owned</span>';
     }
 
     function renderStars(rating) {
-      const r = parseInt(rating) || 0;
+      const r = parseInt(rating, 10) || 0;
       return '★'.repeat(r) + '<span class="text-[#d6ccb4]">' + '★'.repeat(5 - r) + '</span>';
     }
 
@@ -787,20 +807,19 @@
       const shelfVal = document.getElementById('shelfFilter').value;
       const statusVal = document.getElementById('statusFilter').value;
 
-      const filtered = books.filter(b => {
-        if (activeCategory !== 'ALL' && !(b.categories || []).includes(activeCategory)) return false;
+      const filtered = books.filter(function(b) {
+        if (activeCategory !== 'ALL' && (b.categories || []).indexOf(activeCategory) === -1) return false;
         if (shelfVal !== 'ALL' && (b.shelf || '') !== shelfVal) return false;
         if (statusVal === 'LOANED' && !b.isLoaned) return false;
         if (statusVal === 'ON_SHELF' && b.isLoaned) return false;
-        if (statusVal === 'SHOULD_BUY' && !(b.buyStatus || '').startsWith('BUY_')) return false;
+        if (statusVal === 'SHOULD_BUY' && (b.buyStatus || '').indexOf('BUY_') !== 0) return false;
         if (statusVal === 'OWNED' && b.buyStatus !== 'OWNED') return false;
 
         if (q) {
           const hay = [
-            b.title, b.author, b.isbn, b.shelf, b.borrower, b.notes,
-            ...(b.categories || [])
-          ].join(' ').toLowerCase();
-          if (!hay.includes(q)) return false;
+            b.title, b.author, b.isbn, b.shelf, b.borrower, b.notes
+          ].concat(b.categories || []).join(' ').toLowerCase();
+          if (hay.indexOf(q) === -1) return false;
         }
         return true;
       });
@@ -817,88 +836,81 @@
 
       if (viewMode === 'grid') {
         container.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5';
-        container.innerHTML = filtered.map(b => {
-          const coverUrl = b.cover || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
-          const priceDisplay = b.currentValue ? `$${Number(b.currentValue).toFixed(2)}` : (b.purchasePrice ? `$${Number(b.purchasePrice).toFixed(2)}` : '');
-          return `
-            <div onclick="openBookModal('${b.id}')" class="bg-white rounded-2xl border border-[#e5dec9] overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">
-              <div>
-                <div class="relative aspect-[2/3] bg-[#efe8d8] overflow-hidden">
-                  <img src="${coverUrl}" alt="${b.title}" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60'" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
-                  ${b.isLoaned ? `
-                    <div class="absolute top-2 left-2 right-2 px-2 py-1 rounded-lg bg-[#9a3412]/95 text-white text-[10px] font-bold shadow">
-                      Loaned: ${b.borrower || 'Out'}
-                    </div>
-                  ` : ''}
-                  <div class="absolute bottom-2 right-2">
-                    ${getBuyBadge(b.buyStatus)}
-                  </div>
-                </div>
-                <div class="p-3">
-                  <div class="text-[11px] font-semibold text-[#b88a3b] tracking-tight">${renderStars(b.rating)}</div>
-                  <h3 class="font-serif-display text-base font-bold text-[#1f2421] leading-snug line-clamp-2 mt-0.5">${b.title}</h3>
-                  <p class="text-xs text-[#646e68] truncate mt-0.5">${b.author}</p>
+        container.innerHTML = filtered.map(function(b) {
+          const coverUrl = b.cover || FALLBACK_COVER;
+          const priceDisplay = b.currentValue
+            ? '$' + Number(b.currentValue).toFixed(2)
+            : (b.purchasePrice ? '$' + Number(b.purchasePrice).toFixed(2) : '');
+          const cats = b.categories || [];
+          const catBadges = cats.slice(0, 3).map(function(c) {
+            return '<span class="px-1.5 py-0.5 rounded bg-[#f7f3eb] text-[#243e2f] border border-[#e5dec9] text-[10px] font-medium">' + escapeHtml(c) + '</span>';
+          }).join('');
+          const extraCount = cats.length > 3
+            ? '<span class="text-[10px] text-[#646e68] self-center">+' + (cats.length - 3) + '</span>'
+            : '';
+          const loanBanner = b.isLoaned
+            ? '<div class="absolute top-2 left-2 right-2 px-2 py-1 rounded-lg bg-[#9a3412]/95 text-white text-[10px] font-bold shadow">Loaned: ' + escapeHtml(b.borrower || 'Out') + '</div>'
+            : '';
 
-                  <div class="flex flex-wrap gap-1 mt-2">
-                    ${(b.categories || []).slice(0, 3).map(c => `
-                      <span class="px-1.5 py-0.5 rounded bg-[#f7f3eb] text-[#243e2f] border border-[#e5dec9] text-[10px] font-medium">${c}</span>
-                    `).join('')}
-                    ${(b.categories || []).length > 3 ? `<span class="text-[10px] text-[#646e68] self-center">+${b.categories.length - 3}</span>` : ''}
-                  </div>
-                </div>
-              </div>
-
-              <div class="px-3 py-2 bg-[#faf7f0] border-t border-[#efe9d8] flex items-center justify-between text-[11px] text-[#646e68]">
-                <span class="truncate max-w-[70%]" title="${b.shelf \vert{}\vert{} 'Unassigned'}">📍 ${b.shelf || 'No Location'}</span>
-                <span class="font-semibold text-[#1f2421]">${priceDisplay}</span>
-              </div>
-            </div>
-          `;
+          return '<div onclick="openBookModal(\'' + escapeHtml(b.id) + '\')" class="bg-white rounded-2xl border border-[#e5dec9] overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between group">' +
+            '<div>' +
+              '<div class="relative aspect-[2/3] bg-[#efe8d8] overflow-hidden">' +
+                '<img src="' + escapeHtml(coverUrl) + '" alt="' + escapeHtml(b.title) + '" onerror="this.src=\'' + FALLBACK_COVER + '\'" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />' +
+                loanBanner +
+                '<div class="absolute bottom-2 right-2">' + getBuyBadge(b.buyStatus) + '</div>' +
+              '</div>' +
+              '<div class="p-3">' +
+                '<div class="text-[11px] font-semibold text-[#b88a3b] tracking-tight">' + renderStars(b.rating) + '</div>' +
+                '<h3 class="font-serif-display text-base font-bold text-[#1f2421] leading-snug line-clamp-2 mt-0.5">' + escapeHtml(b.title) + '</h3>' +
+                '<p class="text-xs text-[#646e68] truncate mt-0.5">' + escapeHtml(b.author) + '</p>' +
+                '<div class="flex flex-wrap gap-1 mt-2">' + catBadges + extraCount + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="px-3 py-2 bg-[#faf7f0] border-t border-[#efe9d8] flex items-center justify-between text-[11px] text-[#646e68]">' +
+              '<span class="truncate max-w-[70%]" title="' + escapeHtml(b.shelf || 'Unassigned') + '">📍 ' + escapeHtml(b.shelf || 'No Location') + '</span>' +
+              '<span class="font-semibold text-[#1f2421]">' + escapeHtml(priceDisplay) + '</span>' +
+            '</div>' +
+          '</div>';
         }).join('');
       } else {
         container.className = 'space-y-2.5';
-        container.innerHTML = filtered.map(b => {
-          const coverUrl = b.cover || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
-          return `
-            <div onclick="openBookModal('${b.id}')" class="bg-white rounded-xl border border-[#e5dec9] p-3 shadow-sm hover:shadow-md transition cursor-pointer flex gap-3.5 items-start">
-              <img src="${coverUrl}" alt="${b.title}" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60'" class="w-16 h-24 object-cover rounded-lg border border-[#e5dec9] flex-shrink-0" />
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-wrap items-center justify-between gap-1">
-                  <h3 class="font-serif-display text-lg font-bold text-[#1f2421] leading-tight truncate">${b.title}</h3>
-                  <div class="flex items-center gap-1.5">
-                    ${b.isLoaned ? `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-100 text-orange-800 border border-orange-200">Loaned to ${b.borrower}</span>` : ''}
-                    ${getBuyBadge(b.buyStatus)}
-                  </div>
-                </div>
-                <p class="text-xs text-[#646e68] mt-0.5">${b.author}${b.year ? `• ${b.year}` : ''} • <span class="text-[#b88a3b]">${renderStars(b.rating)}</span></p>
+        container.innerHTML = filtered.map(function(b) {
+          const coverUrl = b.cover || FALLBACK_COVER;
+          const catBadges = (b.categories || []).map(function(c) {
+            return '<span class="px-2 py-0.5 rounded-md bg-[#f7f3eb] text-[#243e2f] border border-[#e5dec9] text-[10px] font-medium">' + escapeHtml(c) + '</span>';
+          }).join('');
+          const loanChip = b.isLoaned
+            ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-100 text-orange-800 border border-orange-200">Loaned to ' + escapeHtml(b.borrower) + '</span>'
+            : '';
+          const yearPart = b.year ? ' • ' + escapeHtml(b.year) : '';
+          const paidPart = b.purchasePrice ? 'Paid: <strong>$' + Number(b.purchasePrice).toFixed(2) + '</strong>' : '';
+          const valPart = b.currentValue ? ' • Value: <strong>$' + Number(b.currentValue).toFixed(2) + '</strong>' : '';
+          const returnBtn = b.isLoaned
+            ? '<button type="button" onclick="event.stopPropagation();quickReturnBook(\'' + escapeHtml(b.id) + '\')" class="px-2.5 py-1.5 rounded-lg bg-[#243e2f] text-white text-[11px] font-semibold whitespace-nowrap self-center">Mark Returned</button>'
+            : '';
 
-                <div class="flex flex-wrap gap-1 mt-2">
-                  ${(b.categories || []).map(c => `
-                    <span class="px-2 py-0.5 rounded-md bg-[#f7f3eb] text-[#243e2f] border border-[#e5dec9] text-[10px] font-medium">${c}</span>
-                  `).join('')}
-                </div>
-
-                <div class="mt-2 pt-2 border-t border-[#f0eadb] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#646e68]">
-                  <span>📍 <strong>Location:</strong> ${b.shelf || 'Unassigned'}</span>
-                  <span>
-                    ${b.purchasePrice ? `Paid: <strong>$${Number(b.purchasePrice).toFixed(2)}</strong>` : ''}
-                    ${b.currentValue ? ` • Value: <strong>$${Number(b.currentValue).toFixed(2)}</strong>` : ''}
-                  </span>
-                </div>
-              </div>
-              ${b.isLoaned ? `
-                <button onclick="event.stopPropagation();quickReturnBook('${b.id}')" class="px-2.5 py-1.5 rounded-lg bg-[#243e2f] text-white text-[11px] font-semibold whitespace-nowrap self-center">
-                  Mark Returned
-                </button>
-              ` : ''}
-            </div>
-          `;
+          return '<div onclick="openBookModal(\'' + escapeHtml(b.id) + '\')" class="bg-white rounded-xl border border-[#e5dec9] p-3 shadow-sm hover:shadow-md transition cursor-pointer flex gap-3.5 items-start">' +
+            '<img src="' + escapeHtml(coverUrl) + '" alt="' + escapeHtml(b.title) + '" onerror="this.src=\'' + FALLBACK_COVER + '\'" class="w-16 h-24 object-cover rounded-lg border border-[#e5dec9] flex-shrink-0" />' +
+            '<div class="flex-1 min-w-0">' +
+              '<div class="flex flex-wrap items-center justify-between gap-1">' +
+                '<h3 class="font-serif-display text-lg font-bold text-[#1f2421] leading-tight truncate">' + escapeHtml(b.title) + '</h3>' +
+                '<div class="flex items-center gap-1.5">' + loanChip + getBuyBadge(b.buyStatus) + '</div>' +
+              '</div>' +
+              '<p class="text-xs text-[#646e68] mt-0.5">' + escapeHtml(b.author) + yearPart + ' • <span class="text-[#b88a3b]">' + renderStars(b.rating) + '</span></p>' +
+              '<div class="flex flex-wrap gap-1 mt-2">' + catBadges + '</div>' +
+              '<div class="mt-2 pt-2 border-t border-[#f0eadb] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#646e68]">' +
+                '<span>📍 <strong>Location:</strong> ' + escapeHtml(b.shelf || 'Unassigned') + '</span>' +
+                '<span>' + paidPart + valPart + '</span>' +
+              '</div>' +
+            '</div>' +
+            returnBtn +
+          '</div>';
         }).join('');
       }
     }
 
     function quickReturnBook(id) {
-      const idx = books.findIndex(b => b.id === id);
+      const idx = books.findIndex(function(b) { return b.id === id; });
       if (idx === -1) return;
       books[idx].isLoaned = false;
       books[idx].borrower = '';
@@ -911,19 +923,16 @@
 
     function renderModalCategoryChips() {
       const wrap = document.getElementById('modalCategoryChips');
-      wrap.innerHTML = categories.map(cat => {
+      wrap.innerHTML = categories.map(function(cat) {
         const active = selectedModalCategories.has(cat);
-        return `
-          <button type="button" onclick="toggleModalCategory('${cat.replace(/'/g, "\\'")}')"
-            class="px-2.5 py-1 rounded-lg text-xs font-medium border transition flex items-center gap-1 ${
-              active
-                ? 'bg-[#243e2f] text-white border-[#243e2f]'
-                : 'bg-[#f7f3eb] text-[#1f2421] border-[#d6ccb4] hover:border-[#243e2f]'
-            }">
-            <span>${active ? '✓' : '+'}</span>
-            <span>${cat}</span>
-          </button>
-        `;
+        const btnClass = active
+          ? 'bg-[#243e2f] text-white border-[#243e2f]'
+          : 'bg-[#f7f3eb] text-[#1f2421] border-[#d6ccb4] hover:border-[#243e2f]';
+        return '<button type="button" data-cat="' + escapeHtml(cat) + '" onclick="toggleModalCategory(this.getAttribute(\'data-cat\'))" ' +
+          'class="px-2.5 py-1 rounded-lg text-xs font-medium border transition flex items-center gap-1 ' + btnClass + '">' +
+          '<span>' + (active ? '✓' : '+') + '</span>' +
+          '<span>' + escapeHtml(cat) + '</span>' +
+          '</button>';
       }).join('');
     }
 
@@ -940,7 +949,7 @@
       const input = document.getElementById('newCategoryInput');
       const val = input.value.trim();
       if (!val) return;
-      if (!categories.includes(val)) {
+      if (categories.indexOf(val) === -1) {
         categories.push(val);
         saveState();
         renderCategoryBar();
@@ -969,10 +978,10 @@
 
     function updateCoverPreview() {
       const url = document.getElementById('fieldCover').value.trim();
-      document.getElementById('coverPreview').src = url || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60';
+      document.getElementById('coverPreview').src = url || FALLBACK_COVER;
     }
 
-    function openBookModal(bookId = null) {
+    function openBookModal(bookId) {
       document.getElementById('bookForm').reset();
       document.getElementById('lookupResults').classList.add('hidden');
       document.getElementById('lookupQuery').value = '';
@@ -980,7 +989,7 @@
       selectedModalCategories.clear();
 
       if (bookId) {
-        const b = books.find(item => item.id === bookId);
+        const b = books.find(function(item) { return item.id === bookId; });
         if (!b) return;
         document.getElementById('modalTitle').textContent = 'Edit Book Details';
         document.getElementById('bookId').value = b.id;
@@ -992,7 +1001,7 @@
         document.getElementById('fieldPages').value = b.pages || '';
         document.getElementById('fieldCover').value = b.cover || '';
         document.getElementById('fieldShelf').value = b.shelf || '';
-        document.getElementById('fieldIsLoaned').checked = !!b.isLoaned;
+        document.getElementById('fieldIsLoaned').checked = Boolean(b.isLoaned);
         document.getElementById('fieldBorrower').value = b.borrower || '';
         document.getElementById('fieldLoanDate').value = b.loanDate || '';
         document.getElementById('fieldDueDate').value = b.dueDate || '';
@@ -1001,7 +1010,7 @@
         document.getElementById('fieldBuyStatus').value = b.buyStatus || 'OWNED';
         document.getElementById('fieldRating').value = b.rating || '3';
         document.getElementById('fieldNotes').value = b.notes || '';
-        (b.categories || []).forEach(c => selectedModalCategories.add(c));
+        (b.categories || []).forEach(function(c) { selectedModalCategories.add(c); });
         document.getElementById('btnDeleteBook').classList.remove('hidden');
       } else {
         document.getElementById('modalTitle').textContent = 'Add Book to Library';
@@ -1025,28 +1034,28 @@
       const isLoaned = document.getElementById('fieldIsLoaned').checked;
 
       const bookData = {
-        id,
+        id: id,
         title: document.getElementById('fieldTitle').value.trim(),
         author: document.getElementById('fieldAuthor').value.trim(),
         isbn: document.getElementById('fieldIsbn').value.trim(),
         publisher: document.getElementById('fieldPublisher').value.trim(),
         year: document.getElementById('fieldYear').value.trim(),
-        pages: parseInt(document.getElementById('fieldPages').value) || '',
+        pages: parseInt(document.getElementById('fieldPages').value, 10) || '',
         cover: document.getElementById('fieldCover').value.trim(),
         categories: Array.from(selectedModalCategories),
         shelf: document.getElementById('fieldShelf').value.trim(),
-        isLoaned,
+        isLoaned: isLoaned,
         borrower: isLoaned ? document.getElementById('fieldBorrower').value.trim() : '',
         loanDate: isLoaned ? document.getElementById('fieldLoanDate').value : '',
         dueDate: isLoaned ? document.getElementById('fieldDueDate').value : '',
         purchasePrice: parseFloat(document.getElementById('fieldPurchasePrice').value) || 0,
         currentValue: parseFloat(document.getElementById('fieldCurrentValue').value) || 0,
         buyStatus: document.getElementById('fieldBuyStatus').value,
-        rating: parseInt(document.getElementById('fieldRating').value) || 3,
+        rating: parseInt(document.getElementById('fieldRating').value, 10) || 3,
         notes: document.getElementById('fieldNotes').value.trim()
       };
 
-      const existingIdx = books.findIndex(b => b.id === id);
+      const existingIdx = books.findIndex(function(b) { return b.id === id; });
       if (existingIdx >= 0) {
         books[existingIdx] = bookData;
         showToast('Book updated');
@@ -1066,9 +1075,9 @@
     function promptDeleteBook() {
       const id = document.getElementById('bookId').value;
       if (!id) return;
-      const target = books.find(b => b.id === id);
+      const target = books.find(function(b) { return b.id === id; });
       pendingDeleteBookId = id;
-      document.getElementById('deleteTargetTitle').textContent = target ? `"${target.title}"` : 'this book';
+      document.getElementById('deleteTargetTitle').textContent = target ? '"' + target.title + '"' : 'this book';
       document.getElementById('deleteConfirmModal').classList.remove('hidden');
     }
 
@@ -1079,7 +1088,7 @@
 
     function confirmDeleteBook() {
       if (!pendingDeleteBookId) return;
-      books = books.filter(b => b.id !== pendingDeleteBookId);
+      books = books.filter(function(b) { return b.id !== pendingDeleteBookId; });
       saveState();
       refreshShelfOptions();
       renderCategoryBar();
@@ -1090,8 +1099,9 @@
     }
 
     // GOOGLE BOOKS + OPEN LIBRARY API LOOKUP WITH INTERNET PRICING
-    async function lookupBookOnline(forcedQuery = null) {
-      const q = (forcedQuery || document.getElementById('lookupQuery').value).trim();
+    async function lookupBookOnline(forcedQuery) {
+      const rawVal = forcedQuery || document.getElementById('lookupQuery').value;
+      const q = rawVal.trim();
       if (!q) return;
 
       const btn = document.getElementById('btnLookup');
@@ -1099,30 +1109,104 @@
       btn.textContent = 'Searching...';
       btn.disabled = true;
       resultsBox.classList.remove('hidden');
-      resultsBox.innerHTML = `<div class="text-xs text-[#646e68] py-2">Searching Google Books &amp; Open Library for details and pricing...</div>`;
+      resultsBox.innerHTML = '<div class="text-xs text-[#646e68] py-2">Searching Google Books &amp; Open Library for details and pricing...</div>';
 
       try {
         const cleanIsbn = q.replace(/[^0-9Xx]/g, '');
         const isIsbn = cleanIsbn.length === 10 || cleanIsbn.length === 13;
-        const gbQuery = isIsbn ? `isbn:${cleanIsbn}` : encodeURIComponent(q);
+        const gbQuery = isIsbn ? ('isbn:' + cleanIsbn) : encodeURIComponent(q);
+        const olUrl = isIsbn
+          ? ('https://openlibrary.org/search.json?isbn=' + cleanIsbn + '&limit=4')
+          : ('https://openlibrary.org/search.json?q=' + encodeURIComponent(q) + '&limit=4');
 
-        const [gbRes, olRes] = await Promise.allSettled([
-          fetch(`https://www.googleapis.com/books/v1/volumes?q=${gbQuery}&maxResults=6`), fetch(isIsbn ? `https://openlibrary.org/search.json?isbn=${cleanIsbn}&limit=4`
-            : `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=4` ) ]);  let mergedItems = [];  if (gbRes.status === 'fulfilled' && gbRes.value.ok) { const gbData = await gbRes.value.json(); if (gbData.items && gbData.items.length > 0) { mergedItems = gbData.items.map(item => { const v = item.volumeInfo \vert{}\vert{} {}; const s = item.saleInfo \vert{}\vert{} {}; const identifiers = v.industryIdentifiers \vert{}\vert{} []; const isbnObj = identifiers.find(i => i.type === 'ISBN_13') \vert{}\vert{} identifiers.find(i => i.type === 'ISBN_10'); const isbn = isbnObj ? isbnObj.identifier : (isIsbn ? cleanIsbn : '');  let price = 0; if (s.retailPrice && s.retailPrice.amount) { price = Number(s.retailPrice.amount); } else if (s.listPrice && s.listPrice.amount) { price = Number(s.listPrice.amount); }  let thumb = v.imageLinks ? (v.imageLinks.thumbnail \vert{}\vert{} v.imageLinks.smallThumbnail \vert{}\vert{} '') : ''; if (thumb.startsWith('http://')) thumb = thumb.replace('http://', 'https://');  return { title: v.title \vert{}\vert{} 'Untitled', author: v.authors ? v.authors.join(', ') : 'Unknown Author', isbn, publisher: v.publisher \vert{}\vert{} '', year: v.publishedDate ? v.publishedDate.slice(0, 4) : '', pages: v.pageCount \vert{}\vert{} '', cover: thumb, price }; }); } }  if (mergedItems.length === 0 && olRes.status === 'fulfilled' && olRes.value.ok) { const olData = await olRes.value.json(); if (olData.docs && olData.docs.length > 0) { mergedItems = olData.docs.map(doc => { const isbn = (doc.isbn && doc.isbn[0]) \vert{}\vert{} (isIsbn ? cleanIsbn : ''); const cover = doc.cover_i ? `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`
-                : (isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg` : ''); return { title: doc.title \vert{}\vert{} 'Untitled', author: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author', isbn, publisher: doc.publisher ? doc.publisher[0] : '', year: doc.first_publish_year \vert{}\vert{} '', pages: doc.number_of_pages_median \vert{}\vert{} '', cover, price: 0 }; }); } }  if (mergedItems.length === 0) { resultsBox.innerHTML = `<div class="text-xs text-red-700 py-1">No matching books found. You can enter details manually below.</div>`; } else { window._lastLookupDocs = mergedItems; resultsBox.innerHTML = mergedItems.map((item, idx) => { const thumb = item.cover \vert{}\vert{} 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=100&q=50'; const priceTag = item.price > 0 ? `<span class="text-[10px] font-bold text-[#1f5e3b] bg-[#e8f5ee] px-1.5 py-0.5 rounded">$${item.price.toFixed(2)}</span>`
-              : `<span class="text-[10px] text-[#646e68]">Est. price</span>`;
-            return `
-              <button type="button" onclick="applyLookupDoc(${idx})" class="w-full text-left p-2 rounded-lg bg-white hover:bg-[#f4ebd9] border border-[#e5dec9] flex items-center gap-2.5 transition">
-                <img src="${thumb}" class="w-9 h-12 object-cover rounded border border-[#d6ccb4] flex-shrink-0" />
-                <div class="min-w-0 flex-1">
-                  <div class="flex items-center justify-between gap-2">
-                    <div class="text-xs font-bold text-[#1f2421] truncate">${item.title}</div>${priceTag}
-                  </div>
-                  <div class="text-[11px] text-[#646e68] truncate">${item.author}${item.year ? `(${item.year})` : ''}</div>
-                </div>
-                <span class="text-[11px] font-semibold text-[#243e2f] px-2 py-1 rounded bg-[#f4ebd9]">Select</span>
-              </button>
-            `;
+        const results = await Promise.allSettled([
+          fetch('https://www.googleapis.com/books/v1/volumes?q=' + gbQuery + '&maxResults=6'),
+          fetch(olUrl)
+        ]);
+        const gbRes = results[0];
+        const olRes = results[1];
+
+        let mergedItems = [];
+
+        if (gbRes.status === 'fulfilled' && gbRes.value.ok) {
+          const gbData = await gbRes.value.json();
+          if (gbData.items && gbData.items.length > 0) {
+            mergedItems = gbData.items.map(function(item) {
+              const v = item.volumeInfo || {};
+              const s = item.saleInfo || {};
+              const identifiers = v.industryIdentifiers || [];
+              const isbnObj = identifiers.find(function(i) { return i.type === 'ISBN_13'; }) ||
+                              identifiers.find(function(i) { return i.type === 'ISBN_10'; });
+              const isbn = isbnObj ? isbnObj.identifier : (isIsbn ? cleanIsbn : '');
+
+              let price = 0;
+              if (s.retailPrice && s.retailPrice.amount) {
+                price = Number(s.retailPrice.amount);
+              } else if (s.listPrice && s.listPrice.amount) {
+                price = Number(s.listPrice.amount);
+              }
+
+              let thumb = v.imageLinks ? (v.imageLinks.thumbnail || v.imageLinks.smallThumbnail || '') : '';
+              if (thumb.indexOf('http://') === 0) thumb = thumb.replace('http://', 'https://');
+
+              return {
+                title: v.title || 'Untitled',
+                author: v.authors ? v.authors.join(', ') : 'Unknown Author',
+                isbn: isbn,
+                publisher: v.publisher || '',
+                year: v.publishedDate ? v.publishedDate.slice(0, 4) : '',
+                pages: v.pageCount || '',
+                cover: thumb,
+                price: price
+              };
+            });
+          }
+        }
+
+        if (mergedItems.length === 0 && olRes.status === 'fulfilled' && olRes.value.ok) {
+          const olData = await olRes.value.json();
+          if (olData.docs && olData.docs.length > 0) {
+            mergedItems = olData.docs.map(function(doc) {
+              const isbn = (doc.isbn && doc.isbn[0]) || (isIsbn ? cleanIsbn : '');
+              const cover = doc.cover_i
+                ? ('https://covers.openlibrary.org/b/id/' + doc.cover_i + '-L.jpg')
+                : (isbn ? ('https://covers.openlibrary.org/b/isbn/' + isbn + '-L.jpg') : '');
+              return {
+                title: doc.title || 'Untitled',
+                author: doc.author_name ? doc.author_name.join(', ') : 'Unknown Author',
+                isbn: isbn,
+                publisher: doc.publisher ? doc.publisher[0] : '',
+                year: doc.first_publish_year || '',
+                pages: doc.number_of_pages_median || '',
+                cover: cover,
+                price: 0
+              };
+            });
+          }
+        }
+
+        if (mergedItems.length === 0) {
+          resultsBox.innerHTML = '<div class="text-xs text-red-700 py-1">No matching books found. You can enter details manually below.</div>';
+        } else {
+          window._lastLookupDocs = mergedItems;
+          resultsBox.innerHTML = mergedItems.map(function(item, idx) {
+            const thumb = item.cover || FALLBACK_COVER;
+            const priceTag = item.price > 0
+              ? '<span class="text-[10px] font-bold text-[#1f5e3b] bg-[#e8f5ee] px-1.5 py-0.5 rounded">$' + item.price.toFixed(2) + '</span>'
+              : '<span class="text-[10px] text-[#646e68]">Est. price</span>';
+            const yearLabel = item.year ? ' (' + escapeHtml(item.year) + ')' : '';
+
+            return '<button type="button" onclick="applyLookupDoc(' + idx + ')" class="w-full text-left p-2 rounded-lg bg-white hover:bg-[#f4ebd9] border border-[#e5dec9] flex items-center gap-2.5 transition">' +
+              '<img src="' + escapeHtml(thumb) + '" class="w-9 h-12 object-cover rounded border border-[#d6ccb4] flex-shrink-0" />' +
+              '<div class="min-w-0 flex-1">' +
+                '<div class="flex items-center justify-between gap-2">' +
+                  '<div class="text-xs font-bold text-[#1f2421] truncate">' + escapeHtml(item.title) + '</div>' +
+                  priceTag +
+                '</div>' +
+                '<div class="text-[11px] text-[#646e68] truncate">' + escapeHtml(item.author) + yearLabel + '</div>' +
+              '</div>' +
+              '<span class="text-[11px] font-semibold text-[#243e2f] px-2 py-1 rounded bg-[#f4ebd9]">Select</span>' +
+            '</button>';
           }).join('');
 
           if (isIsbn && mergedItems.length === 1) {
@@ -1130,7 +1214,7 @@
           }
         }
       } catch (err) {
-        resultsBox.innerHTML = `<div class="text-xs text-red-700 py-1">Lookup failed. Check your internet connection.</div>`;
+        resultsBox.innerHTML = '<div class="text-xs text-red-700 py-1">Lookup failed. Check your internet connection.</div>';
       } finally {
         btn.textContent = 'Search API';
         btn.disabled = false;
@@ -1155,7 +1239,7 @@
       let resolvedPrice = item.price;
       const badge = document.getElementById('priceLookupBadge');
       if (!resolvedPrice || resolvedPrice <= 0) {
-        const pageCount = parseInt(item.pages) || 250;
+        const pageCount = parseInt(item.pages, 10) || 250;
         resolvedPrice = pageCount > 350 ? 24.99 : 17.99;
         badge.textContent = 'Est. Market Price';
       } else {
@@ -1173,8 +1257,8 @@
     }
 
     // CAMERA BARCODE SCANNER
-    function openScannerModal(fromBookModal = false) {
-      returnToBookModalAfterScan = fromBookModal;
+    function openScannerModal(fromBookModal) {
+      returnToBookModalAfterScan = Boolean(fromBookModal);
       document.getElementById('scannerModal').classList.remove('hidden');
       document.getElementById('scannerStatus').textContent = 'Starting camera...';
 
@@ -1187,7 +1271,7 @@
       html5QrCode.start(
         { facingMode: 'environment' },
         { fps: 10, qrbox: { width: 250, height: 130 } },
-        (decodedText) => {
+        function(decodedText) {
           closeScannerModal();
           if (!returnToBookModalAfterScan) {
             openBookModal();
@@ -1195,8 +1279,8 @@
           document.getElementById('lookupQuery').value = decodedText;
           lookupBookOnline(decodedText);
         },
-        () => {}
-      ).catch(() => {
+        function() {}
+      ).catch(function() {
         document.getElementById('scannerStatus').textContent = 'Camera access denied or unavailable. Ensure HTTPS is active (e.g. GitHub Pages).';
       });
     }
@@ -1204,7 +1288,9 @@
     function closeScannerModal() {
       document.getElementById('scannerModal').classList.add('hidden');
       if (html5QrCode) {
-        html5QrCode.stop().then(() => html5QrCode.clear()).catch(() => {});
+        html5QrCode.stop().then(function() {
+          html5QrCode.clear();
+        }).catch(function() {});
         html5QrCode = null;
       }
     }
@@ -1214,17 +1300,52 @@
       document.getElementById('cloudUrlInput').value = getCloudUrl();
       document.getElementById('backupModal').classList.remove('hidden');
     }
-    function closeBackupModal() { document.getElementById('backupModal').classList.add('hidden'); }
+
+    function closeBackupModal() {
+      document.getElementById('backupModal').classList.add('hidden');
+    }
 
     function exportCSV() {
       const headers = ['Title', 'Author', 'ISBN', 'Categories', 'Physical Location', 'Loaned Out', 'Borrower', 'Loan Date', 'Due Date', 'Purchase Price', 'Est Value', 'Buy Status', 'Rating', 'Notes'];
-      const rows = books.map(b => [
-        b.title, b.author, b.isbn, (b.categories || []).join('; '), b.shelf,
-        b.isLoaned ? 'Yes' : 'No', b.borrower, b.loanDate, b.dueDate,
-        b.purchasePrice, b.currentValue, b.buyStatus, b.rating, b.notes
-      ].map(val => `"${String(val ?? '').replace(/"/g, '""')}"`).join(','));  const csv = [headers.join(','), ...rows].join('\n'); downloadFile(csv, 'bookshelf-library.csv', 'text/csv'); showToast('CSV exported'); }  function exportJSON() { const payload = JSON.stringify({ books, categories, exportedAt: new Date().toISOString() }, null, 2); downloadFile(payload, 'bookshelf-backup.json', 'application/json'); showToast('JSON backup downloaded'); }  function importJSON(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (ev) => { try { const data = JSON.parse(ev.target.result); if (Array.isArray(data.books)) { books = data.books; if (Array.isArray(data.categories)) categories = data.categories; saveState(); renderCategoryBar(); refreshShelfOptions(); renderLibrary(); closeBackupModal(); showToast(`Restored ${books.length} books`);
+      const rows = books.map(function(b) {
+        return [
+          b.title, b.author, b.isbn, (b.categories || []).join('; '), b.shelf,
+          b.isLoaned ? 'Yes' : 'No', b.borrower, b.loanDate, b.dueDate,
+          b.purchasePrice, b.currentValue, b.buyStatus, b.rating, b.notes
+        ].map(function(val) {
+          return '"' + String(val == null ? '' : val).replace(/"/g, '""') + '"';
+        }).join(',');
+      });
+
+      const csv = [headers.join(',')].concat(rows).join('\n');
+      downloadFile(csv, 'bookshelf-library.csv', 'text/csv');
+      showToast('CSV exported');
+    }
+
+    function exportJSON() {
+      const payload = JSON.stringify({ books: books, categories: categories, exportedAt: new Date().toISOString() }, null, 2);
+      downloadFile(payload, 'bookshelf-backup.json', 'application/json');
+      showToast('JSON backup downloaded');
+    }
+
+    function importJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (Array.isArray(data.books)) {
+            books = data.books;
+            if (Array.isArray(data.categories)) categories = data.categories;
+            saveState();
+            renderCategoryBar();
+            refreshShelfOptions();
+            renderLibrary();
+            closeBackupModal();
+            showToast('Restored ' + books.length + ' books');
           }
-        } catch {
+        } catch (err) {
           showToast('Invalid backup JSON file');
         }
       };
@@ -1232,7 +1353,7 @@
     }
 
     function downloadFile(content, filename, type) {
-      const blob = new Blob([content], { type });
+      const blob = new Blob([content], { type: type });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
